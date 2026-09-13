@@ -10,7 +10,7 @@ function History({ likedVideoIds, onToggleLike, subscribedChannels, onToggleSubs
     <div className="page-container">
       <div className="page-header-box">
         <h2>Watch History</h2>
-        <p>Videos you recently watched on YouTube Platform</p>
+        <p>Videos you recently watched on PheW TuBe Platform</p>
       </div>
 
       <div className="video-grid">

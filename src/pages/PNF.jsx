@@ -6,7 +6,7 @@ function PNF() {
     <div className="pnf-container">
       <div className="pnf-graphic">404</div>
       <h2>This page isn't available. Sorry about that.</h2>
-      <p>Try searching for something else or return to the YouTube Home page.</p>
+      <p>Try searching for something else or return to the PheW TuBe Home page.</p>
       <Link to="/" className="pnf-home-btn">
         Go to Home
       </Link>

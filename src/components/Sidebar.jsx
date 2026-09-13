@@ -212,7 +212,7 @@ function Sidebar({
           </div>
 
           <div className="sidebar-credits">
-            <p>© 2026 YouTube Platform</p>
+            <p>© 2026 PheW TuBe</p>
             <p className="credit-tag">Group G15 (PID-17) • Chitkara University</p>
           </div>
         </div>

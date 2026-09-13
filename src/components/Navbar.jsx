@@ -49,9 +49,9 @@ function Navbar({
           <IoMenu size={22} />
         </button>
 
-        <Link to="/" className="logo-container" onClick={onResetSearch} title="YouTube Home">
+        <Link to="/" className="logo-container" onClick={onResetSearch} title="PheW TuBe Home">
           <FaYoutube className="yt-logo-icon" size={28} />
-          <span className="yt-logo-text">YouTube</span>
+          <span className="yt-logo-text">PheW TuBe</span>
           <span className="country-code">IN</span>
         </Link>
       </div>
