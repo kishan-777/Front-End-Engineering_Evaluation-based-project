@@ -69,14 +69,14 @@ export const CHANNELS = [
 export const SHORTS = [
   {
     id: "s1",
-    title: "MrBeast Gives $500,000 To Last Person To Leave Circle! 😱",
-    thumbnail: "/images/mrbeast_island.png",
+    title: "Don't Pop the Balloon",
+    thumbnail: "/images/mrbeast_balloon_short.jpg",
     views: "48M views",
     channelName: "MrBeast",
     channelAvatar: "/images/mrbeast_logo.png",
-    videoUrl: "https://www.youtube.com/shorts/kX3nB4PpJko",
+    videoUrl: "https://www.youtube.com/shorts/egvLKQe6I4I",
     likes: "3.4M",
-    comments: "24K"
+    comments: "22K"
   },
   {
     id: "s2",
@@ -85,7 +85,7 @@ export const SHORTS = [
     views: "1.8M views",
     channelName: "Chai aur Code",
     channelAvatar: "/images/chaiaurcode_logo.png",
-    videoUrl: "https://www.youtube.com/shorts/vz1RlUyrc3w",
+    videoUrl: "https://www.youtube.com/shorts/-QvbmLTdxK0",
     likes: "185K",
     comments: "950"
   },
@@ -96,7 +96,7 @@ export const SHORTS = [
     views: "15M views",
     channelName: "Samay Raina (India's Got Latent)",
     channelAvatar: "/images/samay_raina.png",
-    videoUrl: "https://www.youtube.com/shorts/bTqVqk7FSmY",
+    videoUrl: "https://www.youtube.com/shorts/bHscL842jJg",
     likes: "1.6M",
     comments: "12K"
   },
@@ -107,7 +107,7 @@ export const SHORTS = [
     views: "9.8M views",
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
-    videoUrl: "https://www.youtube.com/shorts/7X8II6J-6mU",
+    videoUrl: "https://www.youtube.com/shorts/x1zBOEAzz2o",
     likes: "890K",
     comments: "7.2K"
   },
@@ -118,7 +118,7 @@ export const SHORTS = [
     views: "4.8M views",
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
-    videoUrl: "https://www.youtube.com/shorts/HGrLp58VqV4",
+    videoUrl: "https://www.youtube.com/shorts/JlGAo-9Mh4I",
     likes: "420K",
     comments: "3.1K"
   },
@@ -129,7 +129,7 @@ export const SHORTS = [
     views: "3.5M views",
     channelName: "freeCodeCamp.org",
     channelAvatar: "/images/freecodecamp_logo.png",
-    videoUrl: "https://www.youtube.com/shorts/8hly31xKli0",
+    videoUrl: "https://www.youtube.com/shorts/YgI5GEZzrIo",
     likes: "340K",
     comments: "2.4K"
   }
