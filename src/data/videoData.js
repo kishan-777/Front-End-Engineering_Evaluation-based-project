@@ -216,7 +216,7 @@ export const VIDEOS = [
     channelName: "MrBeast",
     channelAvatar: "/images/mrbeast_logo.png",
     category: "Entertainment",
-    videoUrl: "https://www.youtube.com/watch?v=kYvH57-W28E",
+    videoUrl: "https://www.youtube.com/watch?v=krsBRQbOPQ4",
     verified: true,
     likes: "8.4M"
   },
@@ -244,7 +244,7 @@ export const VIDEOS = [
     channelName: "T-Series",
     channelAvatar: "/images/tseries.png",
     category: "Music",
-    videoUrl: "https://www.youtube.com/watch?v=d_kQ0FvE_m4",
+    videoUrl: "https://www.youtube.com/watch?v=Cus-6cnyt1s",
     verified: true,
     likes: "2.1M"
   },
@@ -272,7 +272,7 @@ export const VIDEOS = [
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
     category: "Minecraft",
-    videoUrl: "https://www.youtube.com/watch?v=HGrLp58VqV4",
+    videoUrl: "https://www.youtube.com/watch?v=gTfd3cLMU48",
     verified: true,
     likes: "290K"
   },
@@ -286,7 +286,7 @@ export const VIDEOS = [
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
     category: "Minecraft",
-    videoUrl: "https://www.youtube.com/watch?v=q76bCsAek8s",
+    videoUrl: "https://www.youtube.com/watch?v=D7K2WAldWSo",
     verified: true,
     likes: "180K"
   },
@@ -300,7 +300,7 @@ export const VIDEOS = [
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
     category: "Gaming",
-    videoUrl: "https://www.youtube.com/watch?v=FqS7u1kO69s",
+    videoUrl: "https://www.youtube.com/watch?v=1nWJUHU-0p4",
     verified: true,
     likes: "2.2M"
   },
@@ -314,7 +314,7 @@ export const VIDEOS = [
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
     category: "Gaming",
-    videoUrl: "https://www.youtube.com/watch?v=k4U-3yLd4f8",
+    videoUrl: "https://www.youtube.com/watch?v=yUQSjCy8fkU",
     verified: true,
     likes: "1.4M"
   },
