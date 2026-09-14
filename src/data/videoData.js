@@ -114,7 +114,7 @@ export const SHORTS = [
   {
     id: "s5",
     title: "Minecraft 1-Second Secret Trap That Shocked Everyone! 💥",
-    thumbnail: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=600&auto=format&fit=crop&q=80",
+    thumbnail: "/images/wemmbu_trap_short.png",
     views: "4.8M views",
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
