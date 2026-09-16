@@ -10,7 +10,7 @@ function Playlists({ likedVideoIds, onToggleLike, subscribedChannels, onToggleSu
   // Active selected playlist tab: 'all' | 'watch-later' | 'liked'
   const [activeTab, setActiveTab] = useState('all');
 
-  const watchLaterVideos = VIDEOS.slice(0, 4);
+  const watchLaterVideos = [VIDEOS[1], VIDEOS[2], VIDEOS[13], VIDEOS[10]];
   const likedVideos = VIDEOS.filter((v) => likedVideoIds.includes(v.id));
 
   return (

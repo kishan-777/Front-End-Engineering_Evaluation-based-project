@@ -189,6 +189,8 @@ function App() {
               <Route path="/trending" element={
                 <Trending 
                   title="🔥 Trending Right Now"
+                  category="Trending"
+                  description="Top viral and most viewed videos right now across PheW TuBe"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}
@@ -198,6 +200,8 @@ function App() {
               <Route path="/music" element={
                 <Trending 
                   title="🎵 Music Trending"
+                  category="Music"
+                  description="Top official music videos, tracks, and soundtrack releases"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}
@@ -207,6 +211,8 @@ function App() {
               <Route path="/gaming" element={
                 <Trending 
                   title="🎮 Gaming Hub"
+                  category="Gaming"
+                  description="Epic GTA 5 gameplay, Minecraft hardcore survival, and secret bases"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}
@@ -215,7 +221,9 @@ function App() {
               } />
               <Route path="/news" element={
                 <Trending 
-                  title="📰 News & Events"
+                  title="📰 Tech & Developer News"
+                  category="News"
+                  description="Software engineering, web development insights, and architecture updates"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}
@@ -224,7 +232,9 @@ function App() {
               } />
               <Route path="/sports" element={
                 <Trending 
-                  title="🏆 Sports Central"
+                  title="🏆 Action & Extreme Challenges"
+                  category="Sports"
+                  description="High-adrenaline stunts, survival challenges, and extreme competitions"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}
@@ -234,6 +244,8 @@ function App() {
               <Route path="/podcasts" element={
                 <Trending 
                   title="🎙 Podcasts & Talk Shows"
+                  category="Podcasts"
+                  description="Long-form tech podcasts, system design discussions, and talk show episodes"
                   likedVideoIds={likedVideoIds}
                   onToggleLike={handleToggleLike}
                   subscribedChannels={subscribedChannels}

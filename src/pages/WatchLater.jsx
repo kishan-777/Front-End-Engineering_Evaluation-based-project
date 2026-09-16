@@ -5,8 +5,13 @@ import VideoCard from '../components/VideoCard';
 import { VIDEOS } from '../data/videoData';
 
 function WatchLater({ likedVideoIds, onToggleLike, subscribedChannels, onToggleSubscribe }) {
-  // Videos saved to Watch Later
-  const watchLaterVideos = VIDEOS.slice(0, 4);
+  // Dedicated study & tutorial videos saved to Watch Later
+  const watchLaterVideos = [
+    VIDEOS[1],  // DSA Tutorial Full Course (5h 22m)
+    VIDEOS[2],  // System Design Architecture Podcast
+    VIDEOS[13], // JavaScript in 100 Seconds
+    VIDEOS[10], // Ultimate Secret Underground Base
+  ];
 
   return (
     <div className="page-container">
