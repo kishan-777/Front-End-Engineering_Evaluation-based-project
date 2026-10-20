@@ -20,7 +20,12 @@ function VideoCard({ video }) {
   const isSubscribed = subscribedChannels.includes(video.channelName);
 
   const handleOpenVideo = () => {
-    navigate(`/watch/${video.id}`);
+    navigate(`/watch/${video.slug || video.id}`);
+  };
+
+  const handleOpenChannel = (e) => {
+    e.stopPropagation();
+    navigate(`/channel/${video.channelId || video.channelName}`);
   };
 
   return (
@@ -55,11 +60,8 @@ function VideoCard({ video }) {
           src={video.channelAvatar} 
           alt={video.channelName} 
           className="channel-avatar" 
-          title={video.channelName}
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/watch/${video.id}`);
-          }}
+          title={`Visit ${video.channelName} channel`}
+          onClick={handleOpenChannel}
         />
 
         {/* Title, Metadata & Actions */}
@@ -72,7 +74,7 @@ function VideoCard({ video }) {
             {video.title}
           </h3>
 
-          <div className="channel-name-row" onClick={handleOpenVideo}>
+          <div className="channel-name-row" onClick={handleOpenChannel} title={`Visit ${video.channelName}`}>
             <span className="channel-name">{video.channelName}</span>
             {video.verified && (
               <MdVerified 

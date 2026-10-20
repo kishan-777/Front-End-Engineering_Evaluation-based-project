@@ -18,6 +18,7 @@ import { HiOutlineFire } from 'react-icons/hi2';
 import { IoGameControllerOutline, IoSettingsOutline, IoHelpCircleOutline } from 'react-icons/io5';
 import { TfiCup } from 'react-icons/tfi';
 import { FiExternalLink } from 'react-icons/fi';
+import { RiVideoLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
@@ -44,9 +45,7 @@ function Sidebar() {
   };
 
   const handleChannelClick = (channel) => {
-    setSearchQuery(channel.name);
-    setSelectedCategory('All');
-    navigate('/');
+    navigate(`/channel/${channel.id}`);
   };
 
   const handleExploreCategory = (category, routePath) => {
@@ -97,6 +96,13 @@ function Sidebar() {
           >
             <MdHistory size={20} />
             <span>History</span>
+          </Link>
+          <Link 
+            to="/my-uploads" 
+            className={`sidebar-item ${currentPath === '/my-uploads' ? 'active' : ''}`}
+          >
+            <RiVideoLine size={20} />
+            <span>Your Videos</span>
           </Link>
           <Link 
             to="/playlists" 

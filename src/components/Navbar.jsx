@@ -70,7 +70,7 @@ function Navbar() {
   const handleSelectSuggestion = (video) => {
     setSearchQuery(video.title);
     setShowSuggestions(false);
-    navigate(`/watch/${video.id}`);
+    navigate(`/watch/${video.slug || video.id}`);
   };
 
   const handleMicClick = () => {
@@ -311,6 +311,16 @@ function Navbar() {
                   <span>{currentUser.email}</span>
                 </div>
                 <hr className="dropdown-divider" />
+                <button 
+                  className="dropdown-item-btn"
+                  onClick={() => {
+                    setShowUserMenu(false);
+                    navigate('/my-uploads');
+                  }}
+                >
+                  <RiVideoAddLine />
+                  <span>Your Videos</span>
+                </button>
                 <button 
                   className="dropdown-item-btn"
                   onClick={() => {

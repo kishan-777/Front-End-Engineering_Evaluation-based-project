@@ -41,30 +41,10 @@ function Shorts() {
     }
   }, [queryId]);
 
-  // 2. High-Performance IntersectionObserver: Auto-play visible short and pause previous
-  useEffect(() => {
-    const observerOptions = {
-      root: null, // browser viewport
-      threshold: 0.65 // triggers when 65% of short is centered
-    };
-
-    const handleIntersect = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const visibleId = entry.target.getAttribute('data-short-id');
-          if (visibleId) {
-            setPlayingShortId(visibleId);
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    const elements = document.querySelectorAll('.shorts-stream-item');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, [shorts]);
+  // Simple manual click handler for playing shorts (syllabus compliant React state)
+  const handleTogglePlay = (shortId) => {
+    setPlayingShortId(prev => (prev === shortId ? null : shortId));
+  };
 
   const handleShareShort = (short) => {
     const shareUrl = `${window.location.origin}/shorts?id=${short.id}`;

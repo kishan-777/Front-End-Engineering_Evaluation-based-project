@@ -24,7 +24,7 @@ function WatchLater() {
             {watchLaterVideos.length > 0 && (
               <button 
                 className="play-all-btn"
-                onClick={() => navigate(`/watch/${watchLaterVideos[0].id}`)}
+                onClick={() => navigate(`/watch/${watchLaterVideos[0].slug || watchLaterVideos[0].id}`)}
               >
                 <FaPlay size={12} />
                 <span>Play All</span>

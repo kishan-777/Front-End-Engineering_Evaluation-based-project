@@ -27,11 +27,13 @@ function WatchPage() {
     toggleSubscribe, 
     addToHistory, 
     addComment,
+    isAutoplayEnabled,
+    toggleAutoplay,
     currentUser 
   } = useApp();
 
-  // Find active video by id from route params
-  const currentVideo = videos.find((v) => v.id === id) || videos[0];
+  // Find active video by slug or id from route params
+  const currentVideo = videos.find((v) => v.slug === id || v.id === id) || videos[0];
 
   // Comment input state & ref
   const [commentText, setCommentText] = useState('');
@@ -98,7 +100,7 @@ function WatchPage() {
         <div className="player-aspect-wrapper">
           <iframe
             className="embedded-video-frame"
-            src={`https://www.youtube-nocookie.com/embed/${currentVideo.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube-nocookie.com/embed/${currentVideo.youtubeId}?autoplay=${isAutoplayEnabled ? 1 : 0}&rel=0&modestbranding=1`}
             title={currentVideo.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
@@ -110,7 +112,12 @@ function WatchPage() {
 
         {/* 3. Channel Bar & Interactive Action Buttons */}
         <div className="watch-actions-bar">
-          <div className="watch-channel-info">
+          <div 
+            className="watch-channel-info" 
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/channel/${currentVideo.channelId || currentVideo.channelName}`)}
+            title={`Visit ${currentVideo.channelName} Channel Page`}
+          >
             <img 
               src={currentVideo.channelAvatar} 
               alt={currentVideo.channelName} 
@@ -128,7 +135,10 @@ function WatchPage() {
 
             <button
               className={`watch-subscribe-btn ${isSubscribed ? 'subscribed' : ''}`}
-              onClick={() => toggleSubscribe(currentVideo.channelName)}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleSubscribe(currentVideo.channelName);
+              }}
             >
               {isSubscribed ? 'Subscribed' : 'Subscribe'}
             </button>
@@ -280,13 +290,48 @@ function WatchPage() {
 
       {/* RIGHT COLUMN: Up-Next Recommendations Queue */}
       <div className="watch-recommendations-column">
-        <h3 className="recommendations-header">Up Next</h3>
+        <div className="recommendations-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <h3 className="recommendations-header" style={{ margin: 0 }}>Up Next</h3>
+          <div className="autoplay-control-pill" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 500 }}>Autoplay</span>
+            <button 
+              className={`autoplay-toggle-switch ${isAutoplayEnabled ? 'on' : 'off'}`}
+              onClick={toggleAutoplay}
+              title={isAutoplayEnabled ? "Autoplay is on" : "Autoplay is off"}
+              type="button"
+              style={{
+                width: '36px',
+                height: '20px',
+                borderRadius: '10px',
+                background: isAutoplayEnabled ? '#3ea6ff' : '#4b5563',
+                border: 'none',
+                position: 'relative',
+                cursor: 'pointer',
+                transition: 'background 0.2s ease',
+                padding: '2px'
+              }}
+            >
+              <span 
+                style={{
+                  display: 'block',
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: '50%',
+                  background: '#ffffff',
+                  transform: isAutoplayEnabled ? 'translateX(16px)' : 'translateX(0px)',
+                  transition: 'transform 0.2s ease'
+                }}
+              />
+            </button>
+          </div>
+        </div>
+
         <div className="recommendations-list">
           {recommendations.map((item) => (
             <div 
               key={item.id} 
               className="recommendation-card"
-              onClick={() => navigate(`/watch/${item.id}`)}
+              onClick={() => navigate(`/watch/${item.slug || item.id}`)}
             >
               <div className="recommendation-thumb-wrapper">
                 <img src={item.thumbnail} alt={item.title} className="recommendation-thumb" />

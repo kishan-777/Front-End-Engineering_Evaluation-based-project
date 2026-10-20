@@ -24,7 +24,7 @@ function LikedVideos() {
             {likedVideos.length > 0 && (
               <button 
                 className="play-all-btn"
-                onClick={() => navigate(`/watch/${likedVideos[0].id}`)}
+                onClick={() => navigate(`/watch/${likedVideos[0].slug || likedVideos[0].id}`)}
               >
                 <FaPlay size={12} />
                 <span>Play All</span>

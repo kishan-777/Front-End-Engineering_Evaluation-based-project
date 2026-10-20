@@ -1,28 +1,60 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { VIDEOS, SHORTS, CATEGORIES, CHANNELS, INITIAL_COMMENTS } from '../data/videoData';
+import { VIDEOS, SHORTS, CATEGORIES, CHANNELS, INITIAL_COMMENTS, slugify } from '../data/videoData';
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  // 1. Data Sources
+  // 1. Uploaded Videos State (Persistent)
+  const [uploadedVideos, setUploadedVideos] = useState(() => {
+    try {
+      const saved = localStorage.getItem('phew_uploaded_videos');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // 2. Main Videos State (Persistent with User Uploads prepended)
   const [videos, setVideos] = useState(() => {
     try {
-      const saved = localStorage.getItem('phew_custom_videos');
-      return saved ? JSON.parse(saved) : VIDEOS;
+      const savedUploads = localStorage.getItem('phew_uploaded_videos');
+      const userUploads = savedUploads ? JSON.parse(savedUploads) : [];
+      // Combine user-uploaded videos at the top with official dataset
+      return [...userUploads, ...VIDEOS];
     } catch {
       return VIDEOS;
     }
   });
+
   const [shorts] = useState(SHORTS);
   const [categories] = useState(CATEGORIES);
   const [channels, setChannels] = useState(CHANNELS);
 
-  // 2. Navigation & UI State
+  // 3. Navigation & UI State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Autoplay State (Functional across Settings & Watch Page)
+  const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(() => {
+    try {
+      const saved = localStorage.getItem('phew_autoplay');
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleAutoplay = () => {
+    setIsAutoplayEnabled((prev) => {
+      const next = !prev;
+      localStorage.setItem('phew_autoplay', JSON.stringify(next));
+      toast.info(`Autoplay ${next ? 'Enabled' : 'Disabled'}`, { toastId: 'ap_toast' });
+      return next;
+    });
+  };
 
   // Interactive Modals State
   const [isUploadOpen, setIsUploadOpen] = useState(false);
@@ -32,13 +64,13 @@ export function AppProvider({ children }) {
 
   // Notifications State
   const [notifications, setNotifications] = useState([
-    { id: 'n1', title: 'Chai aur Code uploaded: Complete React 19 Full Course', time: '2 hours ago', unread: true, videoId: 'v1' },
-    { id: 'n2', title: 'Samay Raina: Latent Season 2 Episode 6 ft. Rakhi Sawant', time: 'Yesterday', unread: true, videoId: 'v4' },
-    { id: 'n3', title: 'MrBeast: $1 vs $250,000,000 Private Island Challenge', time: '2 days ago', unread: true, videoId: 'v6' },
-    { id: 'n4', title: 'Techno Gamerz: GTA 5 Episode 147 Police Chase', time: '3 days ago', unread: false, videoId: 'v8' }
+    { id: 'n1', title: 'Chai aur Code uploaded: Complete React 19 Full Course', time: '2 hours ago', unread: true, videoId: 'complete-react-course-with-projects-part-1' },
+    { id: 'n2', title: 'Samay Raina: Latent Season 2 Episode 6 ft. Rakhi Sawant', time: 'Yesterday', unread: true, videoId: 'indias-got-latent-s2-ep6-rakhi-sawant-ashneer-grover' },
+    { id: 'n3', title: 'MrBeast: $1 vs $250,000,000 Private Island Challenge', time: '2 days ago', unread: true, videoId: '1-vs-250000000-private-island' },
+    { id: 'n4', title: 'Techno Gamerz: GTA 5 Episode 147 Police Chase', time: '3 days ago', unread: false, videoId: 'biggest-bank-robbery-in-gta-5-techno-gamerz' }
   ]);
 
-  // 3. User Authentication State (Persistent)
+  // 4. User Authentication State (Persistent)
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_current_user');
@@ -53,7 +85,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 4. Liked Videos State (Persistent)
+  // 5. Liked Videos State (Persistent)
   const [likedVideoIds, setLikedVideoIds] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_liked_videos');
@@ -63,7 +95,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 5. Watch Later State (Persistent)
+  // 6. Watch Later State (Persistent)
   const [watchLaterIds, setWatchLaterIds] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_watch_later');
@@ -73,7 +105,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 6. Subscribed Channels State (Persistent)
+  // 7. Subscribed Channels State (Persistent)
   const [subscribedChannels, setSubscribedChannels] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_subscribed_channels');
@@ -83,7 +115,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 7. Watch History State (Persistent)
+  // 8. Watch History State (Persistent)
   const [watchHistory, setWatchHistory] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_watch_history');
@@ -100,7 +132,7 @@ export function AppProvider({ children }) {
     }
   });
 
-  // 8. Video Comments State (Persistent)
+  // 9. Video Comments State (Persistent)
   const [comments, setComments] = useState(() => {
     try {
       const saved = localStorage.getItem('phew_comments');
@@ -109,23 +141,6 @@ export function AppProvider({ children }) {
       return INITIAL_COMMENTS;
     }
   });
-
-  // Save changes to localStorage via useEffect
-  useEffect(() => {
-    localStorage.setItem('phew_current_user', JSON.stringify(currentUser));
-  }, [currentUser]);
-
-  useEffect(() => {
-    localStorage.setItem('phew_liked_videos', JSON.stringify(likedVideoIds));
-  }, [likedVideoIds]);
-
-  useEffect(() => {
-    localStorage.setItem('phew_watch_later', JSON.stringify(watchLaterIds));
-  }, [watchLaterIds]);
-
-  useEffect(() => {
-    localStorage.setItem('phew_subscribed_channels', JSON.stringify(subscribedChannels));
-  }, [subscribedChannels]);
 
   // Theme State (Dark / Light)
   const [theme, setTheme] = useState(() => {
@@ -145,9 +160,26 @@ export function AppProvider({ children }) {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  // Sync to localStorage
   useEffect(() => {
-    localStorage.setItem('phew_custom_videos', JSON.stringify(videos));
-  }, [videos]);
+    localStorage.setItem('phew_uploaded_videos', JSON.stringify(uploadedVideos));
+  }, [uploadedVideos]);
+
+  useEffect(() => {
+    localStorage.setItem('phew_current_user', JSON.stringify(currentUser));
+  }, [currentUser]);
+
+  useEffect(() => {
+    localStorage.setItem('phew_liked_videos', JSON.stringify(likedVideoIds));
+  }, [likedVideoIds]);
+
+  useEffect(() => {
+    localStorage.setItem('phew_watch_later', JSON.stringify(watchLaterIds));
+  }, [watchLaterIds]);
+
+  useEffect(() => {
+    localStorage.setItem('phew_subscribed_channels', JSON.stringify(subscribedChannels));
+  }, [subscribedChannels]);
 
   useEffect(() => {
     localStorage.setItem('phew_watch_history', JSON.stringify(watchHistory));
@@ -157,7 +189,7 @@ export function AppProvider({ children }) {
     localStorage.setItem('phew_comments', JSON.stringify(comments));
   }, [comments]);
 
-  // Handler: Toggle Like (Silent instant UI feedback like actual YouTube, no spam popups)
+  // Handler: Toggle Like
   const toggleLike = (id) => {
     setLikedVideoIds((prev) => {
       const isLiked = prev.includes(id);
@@ -189,28 +221,45 @@ export function AppProvider({ children }) {
     }
   };
 
-  // Handler: Upload Video dynamically
+  // Handler: Upload Video with File Explorer support
   const uploadVideo = (newVideo) => {
+    const cleanTitle = (newVideo.title || 'Community Video').trim();
     const videoObj = {
       id: 'v_user_' + Date.now(),
-      title: newVideo.title || 'Community Video',
+      slug: slugify(cleanTitle) || ('user-video-' + Date.now()),
+      isUserUpload: true,
+      title: cleanTitle,
       thumbnail: newVideo.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
-      duration: newVideo.duration || '10:24',
-      views: '1 view',
+      duration: newVideo.duration || '04:15',
+      views: '0 views',
       timestamp: 'Just now',
-      channelName: currentUser.isLoggedIn ? currentUser.name : 'Group G15 Creator',
+      channelName: currentUser.isLoggedIn ? currentUser.name : 'Group G15 (You)',
       channelAvatar: currentUser.isLoggedIn ? currentUser.avatar : '/images/user_avatar.svg',
+      channelId: 'ch_user',
       category: newVideo.category || 'React JS',
       videoUrl: newVideo.videoUrl || 'https://www.youtube.com/watch?v=k3G_n_L2B3g',
       youtubeId: newVideo.youtubeId || 'k3G_n_L2B3g',
+      localFileUrl: newVideo.localFileUrl || null,
+      fileName: newVideo.fileName || null,
+      fileSize: newVideo.fileSize || null,
       verified: true,
-      likes: '1',
+      likes: '0',
       subscribers: '1.2K subscribers',
       description: newVideo.description || 'Uploaded community project video for PheW TuBe Evaluation-II.'
     };
+
+    setUploadedVideos((prev) => [videoObj, ...prev]);
     setVideos((prev) => [videoObj, ...prev]);
     toast.success('Video uploaded successfully to PheW TuBe! 🎬', { toastId: 'video_uploaded' });
     setIsUploadOpen(false);
+    return videoObj;
+  };
+
+  // Handler: Delete Uploaded Video
+  const deleteUploadedVideo = (videoId) => {
+    setUploadedVideos((prev) => prev.filter((v) => v.id !== videoId));
+    setVideos((prev) => prev.filter((v) => v.id !== videoId));
+    toast.info('Video removed from Your Uploads', { toastId: `del_${videoId}` });
   };
 
   // Handler: Mark all notifications read
@@ -274,7 +323,7 @@ export function AppProvider({ children }) {
       avatar: '/images/user_avatar.svg',
       isLoggedIn: false
     });
-    toast.info('Logged out successfully', { toastId: 'logout_info' });
+    toast.info('Logged out successfully. You can sign in with another account.', { toastId: 'logout_info' });
   };
 
   const unreadCount = notifications.filter((n) => n.unread).length;
@@ -284,6 +333,9 @@ export function AppProvider({ children }) {
     shorts,
     categories,
     channels,
+    uploadedVideos,
+    uploadVideo,
+    deleteUploadedVideo,
     searchQuery,
     setSearchQuery,
     selectedCategory,
@@ -292,6 +344,8 @@ export function AppProvider({ children }) {
     setIsSidebarExpanded,
     isAuthModalOpen,
     setIsAuthModalOpen,
+    isAutoplayEnabled,
+    toggleAutoplay,
     theme,
     toggleTheme,
     isUploadOpen,
@@ -305,7 +359,6 @@ export function AppProvider({ children }) {
     notifications,
     unreadCount,
     markAllNotificationsRead,
-    uploadVideo,
     currentUser,
     likedVideoIds,
     watchLaterIds,

@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import VideoCard from '../components/VideoCard';
 import { useApp } from '../context/AppContext';
 
 function Subscriptions() {
+  const navigate = useNavigate();
   const { channels, videos, subscribedChannels, toggleSubscribe } = useApp();
   const subbedVideos = videos.filter((v) => subscribedChannels.includes(v.channelName));
 
@@ -21,8 +23,8 @@ function Subscriptions() {
             <div key={ch.id} className={`channel-card-badge ${isSubbed ? 'active' : ''}`}>
               <div 
                 className="channel-badge-main-click"
-                onClick={() => ch.channelUrl && window.open(ch.channelUrl, '_blank')}
-                title={`Visit ${ch.name} on YouTube`}
+                onClick={() => navigate(`/channel/${ch.id}`)}
+                title={`Visit ${ch.name} Channel Page`}
               >
                 <img src={ch.thumbnail} alt={ch.name} className="channel-badge-avatar" />
                 <div className="channel-badge-info">

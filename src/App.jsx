@@ -21,6 +21,8 @@ import LikedVideos from './pages/LikedVideos';
 import WatchLater from './pages/WatchLater';
 import Playlists from './pages/Playlists';
 import Trending from './pages/Trending';
+import ChannelPage from './pages/ChannelPage';
+import MyUploads from './pages/MyUploads';
 import PNF from './pages/PNF';
 import './App.css';
 
@@ -52,6 +54,8 @@ function AppContent() {
             {/* Phase 2 Core Feature: Dynamic Watch Route with useParams() */}
             <Route path="/watch/:id" element={<WatchPage />} />
             <Route path="/shorts" element={<Shorts />} />
+            <Route path="/channel/:id" element={<ChannelPage />} />
+            <Route path="/my-uploads" element={<MyUploads />} />
             <Route path="/subscriptions" element={<Subscriptions />} />
             <Route path="/history" element={<History />} />
             <Route path="/liked" element={<LikedVideos />} />

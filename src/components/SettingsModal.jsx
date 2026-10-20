@@ -5,8 +5,7 @@ import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
 function SettingsModal() {
-  const { isSettingsOpen, setIsSettingsOpen, clearHistory, theme, toggleTheme } = useApp();
-  const [autoplay, setAutoplay] = useState(true);
+  const { isSettingsOpen, setIsSettingsOpen, clearHistory, theme, toggleTheme, isAutoplayEnabled, toggleAutoplay } = useApp();
   const [highQuality, setHighQuality] = useState(true);
 
   if (!isSettingsOpen) return null;
@@ -69,12 +68,9 @@ function SettingsModal() {
             </div>
             <button
               type="button"
-              onClick={() => {
-                setAutoplay(!autoplay);
-                toast.info(`Autoplay ${!autoplay ? 'Enabled' : 'Disabled'}`, { toastId: 'set_ap' });
-              }}
+              onClick={toggleAutoplay}
               style={{
-                background: autoplay ? '#22c55e' : '#3f3f46',
+                background: isAutoplayEnabled ? '#22c55e' : '#3f3f46',
                 border: 'none',
                 color: '#fff',
                 padding: '6px 14px',
@@ -84,7 +80,7 @@ function SettingsModal() {
                 fontSize: '12px'
               }}
             >
-              {autoplay ? 'ON' : 'OFF'}
+              {isAutoplayEnabled ? 'ON' : 'OFF'}
             </button>
           </div>
 
