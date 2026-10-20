@@ -22,14 +22,20 @@ function Navbar() {
     currentUser,
     setIsAuthModalOpen,
     logoutUser,
-    setSelectedCategory
+    setSelectedCategory,
+    setIsUploadOpen,
+    notifications,
+    unreadCount,
+    markAllNotificationsRead
   } = useApp();
 
   const [isMicActive, setIsMicActive] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const navigate = useNavigate();
   const searchWrapperRef = useRef(null);
+  const notifWrapperRef = useRef(null);
 
   // Live Suggestions computation
   const suggestions = searchQuery.trim().length > 0
@@ -119,16 +125,11 @@ function Navbar() {
   };
 
   const handleNotificationsClick = () => {
-    toast.info('🔔 You have 9+ notifications: New videos from Chai aur Code & MrBeast!');
+    setShowNotifications(!showNotifications);
   };
 
   const handleUploadClick = () => {
-    if (!currentUser.isLoggedIn) {
-      toast.warn('Please sign in to upload new video content.');
-      setIsAuthModalOpen(true);
-    } else {
-      toast.info('Video Upload Studio will connect to MongoDB in Phase 3.');
-    }
+    setIsUploadOpen(true);
   };
 
   return (
@@ -227,15 +228,48 @@ function Navbar() {
           <RiVideoAddLine size={21} />
         </button>
 
-        <div className="notification-btn-wrapper">
+        <div className="notification-btn-wrapper" ref={notifWrapperRef}>
           <button 
             className="icon-btn" 
             title="Notifications"
             onClick={handleNotificationsClick}
           >
             <IoNotificationsOutline size={22} />
-            <span className="notification-badge">9+</span>
+            {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
           </button>
+
+          {showNotifications && (
+            <div className="notifications-dropdown-menu">
+              <div className="notif-dropdown-header">
+                <strong>Notifications</strong>
+                <button 
+                  type="button" 
+                  className="mark-read-btn" 
+                  onClick={markAllNotificationsRead}
+                >
+                  Mark all read
+                </button>
+              </div>
+              <div className="notif-list">
+                {notifications.map((item) => (
+                  <div 
+                    key={item.id} 
+                    className={`notif-item ${item.unread ? 'unread' : ''}`}
+                    onClick={() => {
+                      setShowNotifications(false);
+                      navigate(`/watch/${item.videoId}`);
+                    }}
+                  >
+                    <div className="notif-dot" />
+                    <div className="notif-body">
+                      <p className="notif-title">{item.title}</p>
+                      <span className="notif-time">{item.time}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Auth / Profile Area */}

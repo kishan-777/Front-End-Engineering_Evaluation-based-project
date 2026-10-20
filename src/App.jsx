@@ -7,6 +7,10 @@ import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import AuthModal from './components/AuthModal';
+import UploadModal from './components/UploadModal';
+import SettingsModal from './components/SettingsModal';
+import HelpModal from './components/HelpModal';
+import FeedbackModal from './components/FeedbackModal';
 
 import Home from './pages/Home';
 import WatchPage from './pages/WatchPage';
@@ -28,8 +32,12 @@ function AppContent() {
       {/* Top Navigation Bar with Live Search & Auth */}
       <Navbar />
 
-      {/* Login & Sign Up Modal */}
+      {/* Interactive Modals */}
       <AuthModal />
+      <UploadModal />
+      <SettingsModal />
+      <HelpModal />
+      <FeedbackModal />
 
       {/* Main Layout Area */}
       <div className="main-layout">
@@ -52,6 +60,8 @@ function AppContent() {
             <Route path="/trending" element={<Trending />} />
             <Route path="/music" element={<Trending />} />
             <Route path="/gaming" element={<Trending />} />
+            <Route path="/news" element={<Trending />} />
+            <Route path="/sports" element={<Trending />} />
             <Route path="/podcasts" element={<Trending />} />
             <Route path="*" element={<PNF />} />
           </Routes>

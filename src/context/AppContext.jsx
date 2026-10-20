@@ -6,7 +6,14 @@ const AppContext = createContext();
 
 export function AppProvider({ children }) {
   // 1. Data Sources
-  const [videos] = useState(VIDEOS);
+  const [videos, setVideos] = useState(() => {
+    try {
+      const saved = localStorage.getItem('phew_custom_videos');
+      return saved ? JSON.parse(saved) : VIDEOS;
+    } catch {
+      return VIDEOS;
+    }
+  });
   const [shorts] = useState(SHORTS);
   const [categories] = useState(CATEGORIES);
   const [channels, setChannels] = useState(CHANNELS);
@@ -16,6 +23,20 @@ export function AppProvider({ children }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Interactive Modals State
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+
+  // Notifications State
+  const [notifications, setNotifications] = useState([
+    { id: 'n1', title: 'Chai aur Code uploaded: Complete React 19 Full Course', time: '2 hours ago', unread: true, videoId: 'v1' },
+    { id: 'n2', title: 'Samay Raina: Latent Season 2 Episode 6 ft. Rakhi Sawant', time: 'Yesterday', unread: true, videoId: 'v4' },
+    { id: 'n3', title: 'MrBeast: $1 vs $250,000,000 Private Island Challenge', time: '2 days ago', unread: true, videoId: 'v6' },
+    { id: 'n4', title: 'Techno Gamerz: GTA 5 Episode 147 Police Chase', time: '3 days ago', unread: false, videoId: 'v8' }
+  ]);
 
   // 3. User Authentication State (Persistent)
   const [currentUser, setCurrentUser] = useState(() => {
@@ -107,6 +128,10 @@ export function AppProvider({ children }) {
   }, [subscribedChannels]);
 
   useEffect(() => {
+    localStorage.setItem('phew_custom_videos', JSON.stringify(videos));
+  }, [videos]);
+
+  useEffect(() => {
     localStorage.setItem('phew_watch_history', JSON.stringify(watchHistory));
   }, [watchHistory]);
 
@@ -114,46 +139,70 @@ export function AppProvider({ children }) {
     localStorage.setItem('phew_comments', JSON.stringify(comments));
   }, [comments]);
 
-  // Handler: Toggle Like
+  // Handler: Toggle Like (Toast called ONCE with explicit toastId to prevent duplicate in StrictMode)
   const toggleLike = (id) => {
-    setLikedVideoIds((prev) => {
-      const isLiked = prev.includes(id);
-      if (isLiked) {
-        toast.info('Removed from Liked Videos');
-        return prev.filter((item) => item !== id);
-      } else {
-        toast.success('Added to Liked Videos ❤️');
-        return [...prev, id];
-      }
-    });
+    const isLiked = likedVideoIds.includes(id);
+    if (isLiked) {
+      toast.info('Removed from Liked Videos', { toastId: `like_${id}` });
+      setLikedVideoIds((prev) => prev.filter((item) => item !== id));
+    } else {
+      toast.success('Added to Liked Videos ❤️', { toastId: `like_${id}` });
+      setLikedVideoIds((prev) => [...prev, id]);
+    }
   };
 
   // Handler: Toggle Watch Later
   const toggleWatchLater = (id) => {
-    setWatchLaterIds((prev) => {
-      const isSaved = prev.includes(id);
-      if (isSaved) {
-        toast.info('Removed from Watch Later');
-        return prev.filter((item) => item !== id);
-      } else {
-        toast.success('Saved to Watch Later 🕒');
-        return [...prev, id];
-      }
-    });
+    const isSaved = watchLaterIds.includes(id);
+    if (isSaved) {
+      toast.info('Removed from Watch Later', { toastId: `wl_${id}` });
+      setWatchLaterIds((prev) => prev.filter((item) => item !== id));
+    } else {
+      toast.success('Saved to Watch Later 🕒', { toastId: `wl_${id}` });
+      setWatchLaterIds((prev) => [...prev, id]);
+    }
   };
 
   // Handler: Toggle Subscribe
   const toggleSubscribe = (channelName) => {
-    setSubscribedChannels((prev) => {
-      const isSubbed = prev.includes(channelName);
-      if (isSubbed) {
-        toast.info(`Unsubscribed from ${channelName}`);
-        return prev.filter((name) => name !== channelName);
-      } else {
-        toast.success(`Subscribed to ${channelName} 🔔`);
-        return [...prev, channelName];
-      }
-    });
+    const isSubbed = subscribedChannels.includes(channelName);
+    if (isSubbed) {
+      toast.info(`Unsubscribed from ${channelName}`, { toastId: `sub_${channelName}` });
+      setSubscribedChannels((prev) => prev.filter((name) => name !== channelName));
+    } else {
+      toast.success(`Subscribed to ${channelName} 🔔`, { toastId: `sub_${channelName}` });
+      setSubscribedChannels((prev) => [...prev, channelName]);
+    }
+  };
+
+  // Handler: Upload Video dynamically
+  const uploadVideo = (newVideo) => {
+    const videoObj = {
+      id: 'v_user_' + Date.now(),
+      title: newVideo.title || 'Community Video',
+      thumbnail: newVideo.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+      duration: newVideo.duration || '10:24',
+      views: '1 view',
+      timestamp: 'Just now',
+      channelName: currentUser.isLoggedIn ? currentUser.name : 'Group G15 Creator',
+      channelAvatar: currentUser.isLoggedIn ? currentUser.avatar : '/images/user_avatar.svg',
+      category: newVideo.category || 'React JS',
+      videoUrl: newVideo.videoUrl || 'https://www.youtube.com/watch?v=k3G_n_L2B3g',
+      youtubeId: newVideo.youtubeId || 'k3G_n_L2B3g',
+      verified: true,
+      likes: '1',
+      subscribers: '1.2K subscribers',
+      description: newVideo.description || 'Uploaded community project video for PheW TuBe Evaluation-II.'
+    };
+    setVideos((prev) => [videoObj, ...prev]);
+    toast.success('Video uploaded successfully to PheW TuBe! 🎬', { toastId: 'video_uploaded' });
+    setIsUploadOpen(false);
+  };
+
+  // Handler: Mark all notifications read
+  const markAllNotificationsRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
+    toast.success('All notifications marked as read', { toastId: 'notif_read' });
   };
 
   // Handler: Add to History when video opened
@@ -167,7 +216,7 @@ export function AppProvider({ children }) {
   // Handler: Clear History
   const clearHistory = () => {
     setWatchHistory([]);
-    toast.info('Watch history cleared');
+    toast.info('Watch history cleared', { toastId: 'hist_cleared' });
   };
 
   // Handler: Add Comment to a Video
@@ -188,7 +237,7 @@ export function AppProvider({ children }) {
       [videoId]: [newComment, ...(prev[videoId] || [])]
     }));
 
-    toast.success('Comment posted successfully! 💬');
+    toast.success('Comment posted successfully! 💬', { toastId: 'comment_added' });
   };
 
   // Handler: User Login
@@ -200,7 +249,7 @@ export function AppProvider({ children }) {
       isLoggedIn: true
     });
     setIsAuthModalOpen(false);
-    toast.success(`Welcome back, ${userData.name || 'User'}! 🎉`);
+    toast.success(`Welcome back, ${userData.name || 'User'}! 🎉`, { toastId: 'login_success' });
   };
 
   // Handler: User Logout
@@ -208,11 +257,13 @@ export function AppProvider({ children }) {
     setCurrentUser({
       name: 'Guest User',
       email: '',
-      avatar: '/images/user_avatar.png',
+      avatar: '/images/user_avatar.svg',
       isLoggedIn: false
     });
-    toast.info('Logged out successfully');
+    toast.info('Logged out successfully', { toastId: 'logout_info' });
   };
+
+  const unreadCount = notifications.filter((n) => n.unread).length;
 
   const value = {
     videos,
@@ -227,6 +278,18 @@ export function AppProvider({ children }) {
     setIsSidebarExpanded,
     isAuthModalOpen,
     setIsAuthModalOpen,
+    isUploadOpen,
+    setIsUploadOpen,
+    isSettingsOpen,
+    setIsSettingsOpen,
+    isHelpOpen,
+    setIsHelpOpen,
+    isFeedbackOpen,
+    setIsFeedbackOpen,
+    notifications,
+    unreadCount,
+    markAllNotificationsRead,
+    uploadVideo,
     currentUser,
     likedVideoIds,
     watchLaterIds,

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { FaYoutube, FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaYoutube, FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
 function AuthModal() {
   const { isAuthModalOpen, setIsAuthModalOpen, loginUser } = useApp();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -89,7 +90,7 @@ function AuthModal() {
                   id="auth-name"
                   type="text" 
                   name="name" 
-                  placeholder="e.g. Kishan Singh (G15)"
+                  placeholder=""
                   value={formData.name}
                   onChange={handleChange}
                   autoFocus
@@ -106,7 +107,7 @@ function AuthModal() {
                 id="auth-email"
                 type="email" 
                 name="email" 
-                placeholder="student@chitkara.edu.in"
+                placeholder=""
                 value={formData.email}
                 onChange={handleChange}
                 autoFocus={!isSignUp}
@@ -116,16 +117,25 @@ function AuthModal() {
 
           <div className="auth-input-group">
             <label htmlFor="auth-password">Password</label>
-            <div className="auth-input-wrapper">
+            <div className="auth-input-wrapper password-wrapper">
               <FaLock className="auth-input-icon" />
               <input 
                 id="auth-password"
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 name="password" 
-                placeholder="••••••••"
+                placeholder=""
                 value={formData.password}
                 onChange={handleChange}
               />
+              <button 
+                type="button" 
+                className="password-toggle-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "Mask password" : "Unmask password"}
+                aria-label={showPassword ? "Mask password" : "Unmask password"}
+              >
+                {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+              </button>
             </div>
           </div>
 

@@ -10,7 +10,7 @@ function ShortsCard({ short }) {
   const isLiked = likedVideoIds.includes(short.id);
 
   const handleOpenShort = () => {
-    navigate('/shorts');
+    navigate(`/shorts?id=${short.id}`);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   MdHome, 
   MdOutlineSubscriptions, 
@@ -17,6 +17,8 @@ import { AiOutlineLike } from 'react-icons/ai';
 import { HiOutlineFire } from 'react-icons/hi2';
 import { IoGameControllerOutline, IoSettingsOutline, IoHelpCircleOutline } from 'react-icons/io5';
 import { TfiCup } from 'react-icons/tfi';
+import { FiExternalLink } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
 function Sidebar() {
@@ -26,15 +28,32 @@ function Sidebar() {
     subscribedChannels, 
     toggleSubscribe,
     setSearchQuery,
-    setSelectedCategory
+    setSelectedCategory,
+    setIsSettingsOpen,
+    setIsHelpOpen,
+    setIsFeedbackOpen
   } = useApp();
 
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
   const handleResetHome = () => {
     setSearchQuery('');
     setSelectedCategory('All');
+  };
+
+  const handleChannelClick = (channel) => {
+    setSearchQuery(channel.name);
+    setSelectedCategory('All');
+    navigate('/');
+    toast.info(`Filtering videos by ${channel.name}`, { toastId: `filter_${channel.id}` });
+  };
+
+  const handleExploreCategory = (category, routePath) => {
+    setSelectedCategory(category);
+    setSearchQuery('');
+    navigate(routePath);
   };
 
   return (
@@ -118,12 +137,35 @@ function Sidebar() {
                 className="channel-item"
                 title={`${channel.name} (${channel.subscribers})`}
               >
-                <img 
-                  src={channel.thumbnail} 
-                  alt={channel.name} 
-                  className="channel-img-sm"
-                />
-                <span className="channel-title">{channel.name}</span>
+                <div 
+                  className="channel-clickable-area"
+                  onClick={() => handleChannelClick(channel)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, cursor: 'pointer', overflow: 'hidden' }}
+                >
+                  <img 
+                    src={channel.thumbnail} 
+                    alt={channel.name} 
+                    className="channel-img-sm"
+                  />
+                  <span className="channel-title" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    {channel.name}
+                  </span>
+                </div>
+
+                {/* External YouTube Link icon */}
+                <button
+                  type="button"
+                  className="channel-ext-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(channel.channelUrl, '_blank');
+                  }}
+                  title={`Open ${channel.name} on YouTube`}
+                  style={{ background: 'none', border: 'none', color: '#71717a', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                >
+                  <FiExternalLink size={13} />
+                </button>
+
                 <button 
                   className={`sub-toggle-sm ${isSubbed ? 'subbed' : ''}`}
                   onClick={(e) => {
@@ -142,80 +184,105 @@ function Sidebar() {
 
       {isSidebarExpanded && <div className="sidebar-divider" />}
 
-      {/* Explore Section */}
+      {/* Explore Section - Every button is fully functional! */}
       {isSidebarExpanded && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Explore</div>
-          <Link 
-            to="/trending" 
-            className={`sidebar-item ${currentPath === '/trending' ? 'active' : ''}`}
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/trending' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('All', '/trending')}
           >
             <HiOutlineFire size={20} />
             <span>Trending</span>
-          </Link>
-          <Link 
-            to="/music" 
-            className={`sidebar-item ${currentPath === '/music' ? 'active' : ''}`}
+          </button>
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/music' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('Music', '/music')}
           >
             <MdOutlineMusicNote size={20} />
             <span>Music</span>
-          </Link>
-          <Link 
-            to="/gaming" 
-            className={`sidebar-item ${currentPath === '/gaming' ? 'active' : ''}`}
+          </button>
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/gaming' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('Gaming', '/gaming')}
           >
             <IoGameControllerOutline size={20} />
             <span>Gaming</span>
-          </Link>
-          <Link 
-            to="/news" 
-            className={`sidebar-item ${currentPath === '/news' ? 'active' : ''}`}
+          </button>
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/news' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('Coding & Tech', '/news')}
           >
             <MdOutlineFeed size={20} />
             <span>News</span>
-          </Link>
-          <Link 
-            to="/sports" 
-            className={`sidebar-item ${currentPath === '/sports' ? 'active' : ''}`}
+          </button>
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/sports' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('Entertainment', '/sports')}
           >
             <TfiCup size={19} />
             <span>Sports</span>
-          </Link>
-          <Link 
-            to="/podcasts" 
-            className={`sidebar-item ${currentPath === '/podcasts' ? 'active' : ''}`}
+          </button>
+          <button 
+            type="button"
+            className={`sidebar-item btn-item ${currentPath === '/podcasts' ? 'active' : ''}`}
+            onClick={() => handleExploreCategory('Podcasts', '/podcasts')}
           >
             <MdPodcasts size={20} />
             <span>Podcasts</span>
-          </Link>
+          </button>
         </div>
       )}
 
       {isSidebarExpanded && <div className="sidebar-divider" />}
 
-      {/* Settings / Footer Section */}
+      {/* Settings / Footer Section - All 4 buttons functional! */}
       {isSidebarExpanded && (
         <div className="sidebar-section footer-section">
-          <div className="sidebar-item">
+          <div 
+            className="sidebar-item clickable-item"
+            onClick={() => setIsSettingsOpen(true)}
+            title="Open App Settings"
+          >
             <IoSettingsOutline size={19} />
             <span>Settings</span>
           </div>
-          <div className="sidebar-item">
+          <div 
+            className="sidebar-item clickable-item"
+            onClick={() => {
+              navigate('/history');
+              toast.info('Viewing Watch History report 📊', { toastId: 'rep_hist' });
+            }}
+            title="View Watch History Report"
+          >
             <MdOutlineOutlinedFlag size={19} />
             <span>Report history</span>
           </div>
-          <div className="sidebar-item">
+          <div 
+            className="sidebar-item clickable-item"
+            onClick={() => setIsHelpOpen(true)}
+            title="Help & Keyboard Shortcuts"
+          >
             <IoHelpCircleOutline size={19} />
             <span>Help</span>
           </div>
-          <div className="sidebar-item">
+          <div 
+            className="sidebar-item clickable-item"
+            onClick={() => setIsFeedbackOpen(true)}
+            title="Send Feedback"
+          >
             <MdOutlineFeedback size={19} />
             <span>Send feedback</span>
           </div>
 
           <div className="sidebar-credits">
             <p>© 2026 PheW TuBe</p>
-            <p className="credit-tag">Group G15 (PID-17) • Chitkara University</p>
+            <p className="credit-tag">Group G15 (PID-17)</p>
           </div>
         </div>
       )}
