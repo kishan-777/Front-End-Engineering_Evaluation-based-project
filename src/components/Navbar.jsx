@@ -4,7 +4,9 @@ import {
   IoMenu, 
   IoSearchOutline, 
   IoClose, 
-  IoNotificationsOutline 
+  IoNotificationsOutline,
+  IoSunnyOutline,
+  IoMoonOutline
 } from 'react-icons/io5';
 import { IoMdMic } from 'react-icons/io';
 import { RiVideoAddLine } from 'react-icons/ri';
@@ -26,7 +28,9 @@ function Navbar() {
     setIsUploadOpen,
     notifications,
     unreadCount,
-    markAllNotificationsRead
+    markAllNotificationsRead,
+    theme,
+    toggleTheme
   } = useApp();
 
   const [isMicActive, setIsMicActive] = useState(false);
@@ -220,6 +224,16 @@ function Navbar() {
 
       {/* Right: Actions, Notifications, & User Authentication */}
       <div className="nav-right">
+        {/* Light / Dark Mode Toggle */}
+        <button 
+          className="icon-btn theme-toggle-btn" 
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? <IoSunnyOutline size={20} color="#facc15" /> : <IoMoonOutline size={19} color="#3b82f6" />}
+        </button>
+
         <button 
           className="icon-btn" 
           title="Create / Upload Video"

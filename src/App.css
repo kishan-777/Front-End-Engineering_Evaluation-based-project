@@ -2672,3 +2672,245 @@ a {
     padding: 24px 18px;
   }
 }
+
+
+/* =========================================================
+   SHORTS COMMENTS DRAWER OVERLAY
+   ========================================================= */
+.shorts-comments-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(18, 18, 20, 0.96);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.shorts-comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #27272a;
+  padding-bottom: 10px;
+}
+
+.shorts-comments-header h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.shorts-close-cmt-btn {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+.shorts-close-cmt-btn:hover {
+  color: #ffffff;
+}
+
+.shorts-comments-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shorts-comment-row {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.shorts-cmt-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.shorts-cmt-meta strong {
+  color: #ffffff;
+  font-size: 11.5px;
+  margin-right: 6px;
+}
+
+.shorts-cmt-meta span {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.shorts-cmt-content p {
+  color: #e4e4e7;
+  margin: 2px 0 0 0;
+  line-height: 1.35;
+}
+
+.shorts-cmt-form {
+  display: flex;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #27272a;
+}
+
+.shorts-cmt-form input {
+  flex: 1;
+  background: #09090b;
+  border: 1px solid #27272a;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  outline: none;
+}
+.shorts-cmt-form input:focus {
+  border-color: #3ea6ff;
+}
+
+.shorts-cmt-form button {
+  background: #3ea6ff;
+  border: none;
+  color: #000000;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.shorts-cmt-form button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   YOUTUBE-THEMED TOAST NOTIFICATIONS (No Timer Bar, Dark Pill)
+   ========================================================= */
+.Toastify__toast {
+  background: #212121 !important;
+  color: #f1f1f1 !important;
+  border: 1px solid #383838 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75) !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.Toastify__toast-icon {
+  width: 18px !important;
+}
+
+.Toastify__close-button {
+  color: #aaaaaa !important;
+}
+
+/* =========================================================
+   LIGHT MODE THEME ENGINE
+   ========================================================= */
+[data-theme="light"] body,
+[data-theme="light"] .app-container {
+  background-color: #f9f9f9 !important;
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .navbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e5e5 !important;
+}
+
+[data-theme="light"] .yt-logo-text {
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .search-input-wrapper {
+  background-color: #ffffff !important;
+  border: 1px solid #cccccc !important;
+}
+
+[data-theme="light"] .search-input {
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .search-submit-btn,
+[data-theme="light"] .mic-btn {
+  background-color: #f2f2f2 !important;
+  color: #0f0f0f !important;
+  border-color: #d3d3d3 !important;
+}
+
+[data-theme="light"] .sidebar {
+  background-color: #ffffff !important;
+  border-right: 1px solid #e5e5e5 !important;
+}
+
+[data-theme="light"] .sidebar-item {
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .sidebar-item:hover,
+[data-theme="light"] .sidebar-item.active {
+  background-color: #f2f2f2 !important;
+}
+
+[data-theme="light"] .chip {
+  background-color: #f2f2f2 !important;
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .chip.active {
+  background-color: #0f0f0f !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .video-card-title {
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .channel-name,
+[data-theme="light"] .video-meta {
+  color: #606060 !important;
+}
+
+[data-theme="light"] .watch-description-box {
+  background-color: #f2f2f2 !important;
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .watch-action-pill {
+  background-color: #f2f2f2 !important;
+  color: #0f0f0f !important;
+}
+
+[data-theme="light"] .search-suggestions-dropdown,
+[data-theme="light"] .notifications-dropdown-menu,
+[data-theme="light"] .auth-modal-card {
+  background-color: #ffffff !important;
+  color: #0f0f0f !important;
+  border: 1px solid #e5e5e5 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .auth-input-wrapper {
+  background-color: #f9f9f9 !important;
+  border: 1px solid #e5e5e5 !important;
+}
+
+[data-theme="light"] .auth-input-wrapper input {
+  color: #0f0f0f !important;
+}

@@ -47,7 +47,6 @@ function Sidebar() {
     setSearchQuery(channel.name);
     setSelectedCategory('All');
     navigate('/');
-    toast.info(`Filtering videos by ${channel.name}`, { toastId: `filter_${channel.id}` });
   };
 
   const handleExploreCategory = (category, routePath) => {
@@ -215,18 +214,18 @@ function Sidebar() {
           <button 
             type="button"
             className={`sidebar-item btn-item ${currentPath === '/news' ? 'active' : ''}`}
-            onClick={() => handleExploreCategory('Coding & Tech', '/news')}
+            onClick={() => handleExploreCategory('News', '/news')}
           >
             <MdOutlineFeed size={20} />
-            <span>News</span>
+            <span>News (CNN)</span>
           </button>
           <button 
             type="button"
             className={`sidebar-item btn-item ${currentPath === '/sports' ? 'active' : ''}`}
-            onClick={() => handleExploreCategory('Entertainment', '/sports')}
+            onClick={() => handleExploreCategory('Sports', '/sports')}
           >
             <TfiCup size={19} />
-            <span>Sports</span>
+            <span>Sports (Sony LIV)</span>
           </button>
           <button 
             type="button"
@@ -234,7 +233,7 @@ function Sidebar() {
             onClick={() => handleExploreCategory('Podcasts', '/podcasts')}
           >
             <MdPodcasts size={20} />
-            <span>Podcasts</span>
+            <span>Podcasts (Nikhil Kamath)</span>
           </button>
         </div>
       )}

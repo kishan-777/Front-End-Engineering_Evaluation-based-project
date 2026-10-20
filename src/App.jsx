@@ -68,11 +68,11 @@ function AppContent() {
         </main>
       </div>
 
-      {/* Teacher-Recommended React-Toastify Asynchronous Feedback */}
+      {/* Teacher-Recommended React-Toastify Feedback (YouTube Theme, No Timer Bar) */}
       <ToastContainer
         position="bottom-right"
         autoClose={2400}
-        hideProgressBar={false}
+        hideProgressBar={true}
         newestOnTop
         closeOnClick
         rtl={false}

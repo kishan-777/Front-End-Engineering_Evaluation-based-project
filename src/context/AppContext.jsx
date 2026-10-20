@@ -127,6 +127,24 @@ export function AppProvider({ children }) {
     localStorage.setItem('phew_subscribed_channels', JSON.stringify(subscribedChannels));
   }, [subscribedChannels]);
 
+  // Theme State (Dark / Light)
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('phew_theme') || 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('phew_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   useEffect(() => {
     localStorage.setItem('phew_custom_videos', JSON.stringify(videos));
   }, [videos]);
@@ -139,16 +157,12 @@ export function AppProvider({ children }) {
     localStorage.setItem('phew_comments', JSON.stringify(comments));
   }, [comments]);
 
-  // Handler: Toggle Like (Toast called ONCE with explicit toastId to prevent duplicate in StrictMode)
+  // Handler: Toggle Like (Silent instant UI feedback like actual YouTube, no spam popups)
   const toggleLike = (id) => {
-    const isLiked = likedVideoIds.includes(id);
-    if (isLiked) {
-      toast.info('Removed from Liked Videos', { toastId: `like_${id}` });
-      setLikedVideoIds((prev) => prev.filter((item) => item !== id));
-    } else {
-      toast.success('Added to Liked Videos ❤️', { toastId: `like_${id}` });
-      setLikedVideoIds((prev) => [...prev, id]);
-    }
+    setLikedVideoIds((prev) => {
+      const isLiked = prev.includes(id);
+      return isLiked ? prev.filter((item) => item !== id) : [...prev, id];
+    });
   };
 
   // Handler: Toggle Watch Later
@@ -278,6 +292,8 @@ export function AppProvider({ children }) {
     setIsSidebarExpanded,
     isAuthModalOpen,
     setIsAuthModalOpen,
+    theme,
+    toggleTheme,
     isUploadOpen,
     setIsUploadOpen,
     isSettingsOpen,

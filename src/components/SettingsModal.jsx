@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
 function SettingsModal() {
-  const { isSettingsOpen, setIsSettingsOpen, clearHistory } = useApp();
+  const { isSettingsOpen, setIsSettingsOpen, clearHistory, theme, toggleTheme } = useApp();
   const [autoplay, setAutoplay] = useState(true);
   const [highQuality, setHighQuality] = useState(true);
 
@@ -39,6 +39,29 @@ function SettingsModal() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', margin: '20px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#121215', borderRadius: '10px', border: '1px solid #27272a' }}>
+            <div>
+              <strong style={{ fontSize: '14px', display: 'block' }}>Display Theme</strong>
+              <span style={{ fontSize: '12px', color: '#a1a1aa' }}>Switch between Dark and Light mode</span>
+            </div>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              style={{
+                background: theme === 'dark' ? '#27272a' : '#f4f4f5',
+                border: '1px solid #3f3f46',
+                color: theme === 'dark' ? '#fff' : '#000',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontSize: '12px'
+              }}
+            >
+              {theme === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            </button>
+          </div>
+
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#121215', borderRadius: '10px', border: '1px solid #27272a' }}>
             <div>
               <strong style={{ fontSize: '14px', display: 'block' }}>Autoplay Next Video</strong>

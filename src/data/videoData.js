@@ -11,6 +11,8 @@ export const CATEGORIES = [
   "Gaming",
   "Minecraft",
   "Entertainment",
+  "News",
+  "Sports",
   "Podcasts"
 ];
 
@@ -86,6 +88,33 @@ export const CHANNELS = [
     channelUrl: "https://www.youtube.com/@NeetCode",
     verified: true,
     description: "Master Data Structures, Algorithms & System Design for top engineering placements."
+  },
+  {
+    id: "ch_cnn",
+    name: "CNN",
+    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/b/b1/CNN.svg",
+    subscribers: "17.4M subscribers",
+    channelUrl: "https://www.youtube.com/@CNN",
+    verified: true,
+    description: "CNN delivers the latest world news, breaking stories, and investigative reports."
+  },
+  {
+    id: "ch_sonyliv",
+    name: "Sony LIV",
+    thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=120&auto=format&fit=crop&q=80",
+    subscribers: "45.8M subscribers",
+    channelUrl: "https://www.youtube.com/@SonyLIV",
+    verified: true,
+    description: "Official destination for live sports, UEFA Champions League, and exclusive highlights."
+  },
+  {
+    id: "ch_nikhilkamath",
+    name: "Nikhil Kamath",
+    thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    subscribers: "1.85M subscribers",
+    channelUrl: "https://www.youtube.com/@nikhil.kamath",
+    verified: true,
+    description: "Co-founder of Zerodha. Host of 'WTF is' podcast exploring business, tech, and creators."
   }
 ];
 
@@ -443,6 +472,57 @@ export const VIDEOS = [
     likes: "59K",
     subscribers: "645K subscribers",
     description: "Everything new in React 19: Form Actions, useActionState, Document Metadata, and the brand new React Compiler."
+  },
+  {
+    id: "v17",
+    title: "SpaceX Starship Orbital Launch: Live Flight Analysis & Global Tech News",
+    thumbnail: "https://images.unsplash.com/photo-1517976487502-5f71e5491754?w=800&auto=format&fit=crop&q=80",
+    duration: "14:45",
+    views: "8.2M views",
+    timestamp: "3 months ago",
+    channelName: "CNN",
+    channelAvatar: "https://upload.wikimedia.org/wikipedia/commons/b/b1/CNN.svg",
+    category: "News",
+    videoUrl: "https://www.youtube.com/watch?v=k3G_n_L2B3g",
+    youtubeId: "k3G_n_L2B3g",
+    verified: true,
+    likes: "340K",
+    subscribers: "17.4M subscribers",
+    description: "CNN special coverage on space exploration milestones, private aerospace engineering, and international tech headlines."
+  },
+  {
+    id: "v18",
+    title: "Best Goals of the UEFA Champions League Season | Sony LIV Sports",
+    thumbnail: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80",
+    duration: "18:20",
+    views: "19M views",
+    timestamp: "4 months ago",
+    channelName: "Sony LIV",
+    channelAvatar: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=120&auto=format&fit=crop&q=80",
+    category: "Sports",
+    videoUrl: "https://www.youtube.com/watch?v=5qap5aO4i9A",
+    youtubeId: "5qap5aO4i9A",
+    verified: true,
+    likes: "890K",
+    subscribers: "45.8M subscribers",
+    description: "Relive the greatest goals, dramatic comebacks, and tactical masterclasses from the UEFA Champions League campaign on Sony LIV."
+  },
+  {
+    id: "v19",
+    title: "WTF is Gaming? Tanmay Bhat, Animesh Agarwal & Mortal with Nikhil Kamath",
+    thumbnail: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=80",
+    duration: "2:48:15",
+    views: "4.6M views",
+    timestamp: "7 months ago",
+    channelName: "Nikhil Kamath",
+    channelAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    category: "Podcasts",
+    videoUrl: "https://www.youtube.com/watch?v=zbIr24Tes7E",
+    youtubeId: "zbIr24Tes7E",
+    verified: true,
+    likes: "215K",
+    subscribers: "1.85M subscribers",
+    description: "Nikhil Kamath sits down with Tanmay Bhat, 8Bit Thug (Animesh), and Mortal to discuss the business, esports ecosystem, and future of gaming in India."
   }
 ];
 

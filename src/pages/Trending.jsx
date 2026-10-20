@@ -26,18 +26,18 @@ function Trending() {
     { id: 'Now', label: 'Trending Now', icon: <HiOutlineFire size={18} /> },
     { id: 'Music', label: 'Music', icon: <MdOutlineMusicNote size={18} /> },
     { id: 'Gaming', label: 'Gaming', icon: <IoGameControllerOutline size={18} /> },
-    { id: 'News', label: 'Tech News', icon: <MdOutlineFeed size={18} /> },
-    { id: 'Sports', label: 'Sports & Challenges', icon: <TfiCup size={17} /> },
-    { id: 'Podcasts', label: 'Podcasts', icon: <MdPodcasts size={18} /> }
+    { id: 'News', label: 'News (CNN)', icon: <MdOutlineFeed size={18} /> },
+    { id: 'Sports', label: 'Sports (Sony LIV)', icon: <TfiCup size={17} /> },
+    { id: 'Podcasts', label: 'Podcasts (Nikhil Kamath)', icon: <MdPodcasts size={18} /> }
   ];
 
   const filteredTrending = videos.filter((video) => {
     if (activeTab === 'Now') return true;
     if (activeTab === 'Music') return video.category === 'Music';
     if (activeTab === 'Gaming') return video.category === 'Gaming' || video.category === 'Minecraft';
-    if (activeTab === 'News') return video.category === 'Coding & Tech' || video.category === 'React JS';
-    if (activeTab === 'Sports') return video.category === 'Entertainment' || video.title.toLowerCase().includes('challenge');
-    if (activeTab === 'Podcasts') return video.category === 'Podcasts' || video.category === 'Comedy';
+    if (activeTab === 'News') return video.category === 'News' || video.channelName === 'CNN';
+    if (activeTab === 'Sports') return video.category === 'Sports' || video.channelName === 'Sony LIV';
+    if (activeTab === 'Podcasts') return video.category === 'Podcasts' || video.channelName === 'Nikhil Kamath';
     return true;
   });
 
