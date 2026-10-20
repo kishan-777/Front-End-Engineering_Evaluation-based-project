@@ -8,7 +8,7 @@ function AuthModal() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: ''
   });
@@ -26,19 +26,28 @@ function AuthModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      setError('Please fill in all required fields.');
-      return;
-    }
-    if (isSignUp && !formData.name) {
-      setError('Please enter your full name.');
-      return;
-    }
 
-    loginUser({
-      name: formData.name || formData.email.split('@')[0],
-      email: formData.email
-    });
+    if (!isSignUp) {
+      // Sign In only requires Username and Password
+      if (!formData.username.trim() || !formData.password) {
+        setError('Please enter your username and password.');
+        return;
+      }
+      loginUser({
+        name: formData.username.trim(),
+        email: `${formData.username.trim().toLowerCase().replace(/\s+/g, '')}@phew.tube`
+      });
+    } else {
+      // Sign Up requires Username, Email, and Password
+      if (!formData.username.trim() || !formData.email.trim() || !formData.password) {
+        setError('Please fill in username, email, and password.');
+        return;
+      }
+      loginUser({
+        name: formData.username.trim(),
+        email: formData.email.trim()
+      });
+    }
   };
 
   return (
@@ -81,40 +90,42 @@ function AuthModal() {
         {error && <div className="auth-error-banner">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {/* Username Field (Always required for both Sign In and Sign Up) */}
+          <div className="auth-input-group">
+            <label htmlFor="auth-username">Username</label>
+            <div className="auth-input-wrapper">
+              <FaUser className="auth-input-icon" />
+              <input 
+                id="auth-username"
+                type="text" 
+                name="username" 
+                placeholder=""
+                value={formData.username}
+                onChange={handleChange}
+                autoFocus
+              />
+            </div>
+          </div>
+
+          {/* Email Field (Only on Sign Up) */}
           {isSignUp && (
             <div className="auth-input-group">
-              <label htmlFor="auth-name">Full Name</label>
+              <label htmlFor="auth-email">Email Address</label>
               <div className="auth-input-wrapper">
-                <FaUser className="auth-input-icon" />
+                <FaEnvelope className="auth-input-icon" />
                 <input 
-                  id="auth-name"
-                  type="text" 
-                  name="name" 
+                  id="auth-email"
+                  type="email" 
+                  name="email" 
                   placeholder=""
-                  value={formData.name}
+                  value={formData.email}
                   onChange={handleChange}
-                  autoFocus
                 />
               </div>
             </div>
           )}
 
-          <div className="auth-input-group">
-            <label htmlFor="auth-email">Email Address</label>
-            <div className="auth-input-wrapper">
-              <FaEnvelope className="auth-input-icon" />
-              <input 
-                id="auth-email"
-                type="email" 
-                name="email" 
-                placeholder=""
-                value={formData.email}
-                onChange={handleChange}
-                autoFocus={!isSignUp}
-              />
-            </div>
-          </div>
-
+          {/* Password Field with Mask/Unmask Eye Icon */}
           <div className="auth-input-group">
             <label htmlFor="auth-password">Password</label>
             <div className="auth-input-wrapper password-wrapper">
@@ -143,10 +154,6 @@ function AuthModal() {
             {isSignUp ? 'Create Account' : 'Sign In'}
           </button>
         </form>
-
-        <div className="auth-footer-note">
-          Demo Account Mode: Group G15 Evaluation-II
-        </div>
       </div>
     </div>
   );
