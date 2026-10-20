@@ -1,58 +1,52 @@
 import React from 'react';
-import { MdOutlinePlaylistPlay } from 'react-icons/md';
-import { FaLock } from 'react-icons/fa';
+import { FaClock, FaPlay } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import VideoCard from '../components/VideoCard';
-import { VIDEOS } from '../data/videoData';
+import { useApp } from '../context/AppContext';
 
-function WatchLater({ likedVideoIds, onToggleLike, subscribedChannels, onToggleSubscribe }) {
-  // Dedicated study & tutorial videos saved to Watch Later
-  const watchLaterVideos = [
-    VIDEOS[1],  // DSA Tutorial Full Course (5h 22m)
-    VIDEOS[2],  // System Design Architecture Podcast
-    VIDEOS[13], // JavaScript in 100 Seconds
-    VIDEOS[10], // Ultimate Secret Underground Base
-  ];
+function WatchLater() {
+  const { videos, watchLaterIds } = useApp();
+  const navigate = useNavigate();
+  const watchLaterVideos = videos.filter((v) => watchLaterIds.includes(v.id));
 
   return (
     <div className="page-container">
-      <div className="playlist-banner-header">
-        <div className="playlist-cover-card">
-          <img 
-            src={watchLaterVideos[0]?.thumbnail} 
-            alt="Watch Later Playlist" 
-            className="playlist-cover-img"
-          />
-          <div className="playlist-cover-overlay">
-            <MdOutlinePlaylistPlay size={28} />
-            <span>{watchLaterVideos.length} videos</span>
+      <div className="playlist-banner watchlater-banner">
+        <div className="playlist-banner-left">
+          <div className="playlist-banner-icon-box">
+            <FaClock size={36} color="#3b82f6" />
           </div>
-        </div>
-
-        <div className="playlist-header-meta">
-          <h2>Watch Later</h2>
-          <p className="playlist-subtitle">Auto-saved playlist • Private • {watchLaterVideos.length} videos</p>
-          <div className="playlist-badges-row">
-            <span className="playlist-tag"><FaLock size={10} style={{ marginRight: '4px' }} /> Private</span>
-            <span className="playlist-tag">Updated today</span>
+          <div className="playlist-banner-text">
+            <h2>Watch Later</h2>
+            <p className="playlist-stats">
+              {watchLaterVideos.length} {watchLaterVideos.length === 1 ? 'video' : 'videos'} • Curated Study & Tutorial Queue
+            </p>
+            {watchLaterVideos.length > 0 && (
+              <button 
+                className="play-all-btn"
+                onClick={() => navigate(`/watch/${watchLaterVideos[0].id}`)}
+              >
+                <FaPlay size={12} />
+                <span>Play All</span>
+              </button>
+            )}
           </div>
-          <p className="playlist-desc">Videos you have saved to watch later at your convenience.</p>
         </div>
       </div>
 
-      <section className="video-grid-section" style={{ marginTop: '24px' }}>
-        <h3 className="section-title">Saved Videos in Watch Later ({watchLaterVideos.length})</h3>
-        <div className="video-grid">
-          {watchLaterVideos.map((video) => (
-            <VideoCard 
-              key={video.id}
-              video={video}
-              isLiked={likedVideoIds.includes(video.id)}
-              onToggleLike={onToggleLike}
-              isSubscribed={subscribedChannels.includes(video.channelName)}
-              onToggleSubscribe={onToggleSubscribe}
-            />
-          ))}
-        </div>
+      <section className="video-grid-section">
+        {watchLaterVideos.length === 0 ? (
+          <div className="empty-sub-card">
+            <h3>Your Watch Later queue is empty</h3>
+            <p>Save videos to watch later by clicking the "Watch Later" button on any video card.</p>
+          </div>
+        ) : (
+          <div className="video-grid">
+            {watchLaterVideos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

@@ -1,23 +1,34 @@
 import React from 'react';
 import { SiYoutubeshorts } from 'react-icons/si';
-import { FaHeart, FaRegHeart, FaRegCommentDots, FaShare, FaExternalLinkAlt } from 'react-icons/fa';
-import { SHORTS } from '../data/videoData';
+import { FaHeart, FaRegHeart, FaRegCommentDots, FaShare } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { useApp } from '../context/AppContext';
 
-function Shorts({ likedVideoIds, onToggleLike }) {
-  const handleOpenShort = (url) => {
-    window.open(url, '_blank');
+function Shorts() {
+  const { shorts, likedVideoIds, toggleLike, subscribedChannels, toggleSubscribe } = useApp();
+
+  const handleShareShort = (short) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(short.videoUrl);
+      toast.success('Shorts link copied to clipboard! 📋');
+    } else {
+      toast.info(`Shorts link: ${short.videoUrl}`);
+    }
   };
 
   return (
     <div className="shorts-page-container">
       <div className="shorts-feed-column">
-        {SHORTS.map((short) => {
+        {shorts.map((short) => {
           const isLiked = likedVideoIds.includes(short.id);
+          const isSubbed = subscribedChannels.includes(short.channelName);
+
           return (
             <div key={short.id} className="shorts-stream-item">
               <div 
                 className="shorts-video-viewport" 
-                onClick={() => handleOpenShort(short.videoUrl)}
+                onClick={() => window.open(short.videoUrl, '_blank')}
+                title="Click to watch on YouTube Shorts"
               >
                 <img 
                   src={short.thumbnail} 
@@ -27,11 +38,11 @@ function Shorts({ likedVideoIds, onToggleLike }) {
 
                 <div className="shorts-top-bar">
                   <div className="shorts-brand">
-                    <SiYoutubeshorts size={20} color="#ff0000" />
+                    <SiYoutubeshorts size={20} color="#dc2626" />
                     <span>Shorts</span>
                   </div>
                   <span className="watch-yt-badge">
-                    Open on YouTube <FaExternalLinkAlt size={10} style={{ marginLeft: '4px' }} />
+                    HD Reel
                   </span>
                 </div>
 
@@ -43,7 +54,15 @@ function Shorts({ likedVideoIds, onToggleLike }) {
                       className="shorts-channel-pic"
                     />
                     <span className="shorts-channel-text">@{short.channelName}</span>
-                    <button className="shorts-sub-btn">Subscribe</button>
+                    <button 
+                      className={`shorts-sub-btn ${isSubbed ? 'subbed' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSubscribe(short.channelName);
+                      }}
+                    >
+                      {isSubbed ? 'Subscribed' : 'Subscribe'}
+                    </button>
                   </div>
                   <h3 className="shorts-stream-title">{short.title}</h3>
                 </div>
@@ -53,16 +72,16 @@ function Shorts({ likedVideoIds, onToggleLike }) {
               <div className="shorts-action-bar">
                 <button 
                   className={`shorts-circle-action ${isLiked ? 'active' : ''}`}
-                  onClick={() => onToggleLike(short.id)}
+                  onClick={() => toggleLike(short.id)}
                   title={isLiked ? "Unlike" : "Like"}
                 >
-                  {isLiked ? <FaHeart size={20} color="#ff4757" /> : <FaRegHeart size={20} />}
+                  {isLiked ? <FaHeart size={20} color="#ef4444" /> : <FaRegHeart size={20} />}
                   <span>{isLiked ? 'Liked' : short.likes}</span>
                 </button>
 
                 <button 
                   className="shorts-circle-action" 
-                  onClick={() => handleOpenShort(short.videoUrl)}
+                  onClick={() => toast.info(`Viewing comments for ${short.title}`)}
                   title="Comments"
                 >
                   <FaRegCommentDots size={20} />
@@ -71,7 +90,7 @@ function Shorts({ likedVideoIds, onToggleLike }) {
 
                 <button 
                   className="shorts-circle-action" 
-                  onClick={() => handleOpenShort(short.videoUrl)}
+                  onClick={() => handleShareShort(short)}
                   title="Share"
                 >
                   <FaShare size={18} />

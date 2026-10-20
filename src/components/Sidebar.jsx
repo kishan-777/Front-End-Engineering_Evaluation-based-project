@@ -17,28 +17,37 @@ import { AiOutlineLike } from 'react-icons/ai';
 import { HiOutlineFire } from 'react-icons/hi2';
 import { IoGameControllerOutline, IoSettingsOutline, IoHelpCircleOutline } from 'react-icons/io5';
 import { TfiCup } from 'react-icons/tfi';
+import { useApp } from '../context/AppContext';
 
-function Sidebar({ 
-  isExpanded, 
-  channels, 
-  subscribedChannels, 
-  onToggleSubscribe,
-  onResetSearch
-}) {
+function Sidebar() {
+  const { 
+    isSidebarExpanded, 
+    channels, 
+    subscribedChannels, 
+    toggleSubscribe,
+    setSearchQuery,
+    setSelectedCategory
+  } = useApp();
+
   const location = useLocation();
   const currentPath = location.pathname;
 
+  const handleResetHome = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+  };
+
   return (
-    <aside className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
+    <aside className={`sidebar ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}>
       {/* Main Section */}
       <div className="sidebar-section">
         <Link 
           to="/" 
           className={`sidebar-item ${currentPath === '/' || currentPath === '/home' ? 'active' : ''}`}
-          onClick={onResetSearch}
+          onClick={handleResetHome}
         >
           <MdHome size={22} />
-          {isExpanded && <span>Home</span>}
+          {isSidebarExpanded && <span>Home</span>}
         </Link>
 
         <Link 
@@ -46,7 +55,7 @@ function Sidebar({
           className={`sidebar-item ${currentPath === '/shorts' ? 'active' : ''}`}
         >
           <SiYoutubeshorts size={20} />
-          {isExpanded && <span>Shorts</span>}
+          {isSidebarExpanded && <span>Shorts</span>}
         </Link>
 
         <Link 
@@ -54,14 +63,14 @@ function Sidebar({
           className={`sidebar-item ${currentPath === '/subscriptions' ? 'active' : ''}`}
         >
           <MdOutlineSubscriptions size={20} />
-          {isExpanded && <span>Subscriptions</span>}
+          {isSidebarExpanded && <span>Subscriptions</span>}
         </Link>
       </div>
 
-      {isExpanded && <div className="sidebar-divider" />}
+      {isSidebarExpanded && <div className="sidebar-divider" />}
 
       {/* You / Library Section */}
-      {isExpanded && (
+      {isSidebarExpanded && (
         <div className="sidebar-section">
           <div className="sidebar-heading">You &gt;</div>
           <Link 
@@ -95,26 +104,19 @@ function Sidebar({
         </div>
       )}
 
-      {isExpanded && <div className="sidebar-divider" />}
+      {isSidebarExpanded && <div className="sidebar-divider" />}
 
       {/* Subscriptions List Section */}
-      {isExpanded && (
+      {isSidebarExpanded && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Subscriptions</div>
           {channels.map((channel) => {
             const isSubbed = subscribedChannels.includes(channel.name);
-            const handleOpenChannel = () => {
-              if (channel.channelUrl) {
-                window.open(channel.channelUrl, '_blank');
-              }
-            };
-
             return (
               <div 
                 key={channel.id} 
                 className="channel-item"
-                onClick={handleOpenChannel}
-                title={"Visit " + channel.name + " on YouTube"}
+                title={`${channel.name} (${channel.subscribers})`}
               >
                 <img 
                   src={channel.thumbnail} 
@@ -126,7 +128,7 @@ function Sidebar({
                   className={`sub-toggle-sm ${isSubbed ? 'subbed' : ''}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    onToggleSubscribe(channel.name);
+                    toggleSubscribe(channel.name);
                   }}
                   title={isSubbed ? "Subscribed" : "Subscribe"}
                 >
@@ -138,10 +140,10 @@ function Sidebar({
         </div>
       )}
 
-      {isExpanded && <div className="sidebar-divider" />}
+      {isSidebarExpanded && <div className="sidebar-divider" />}
 
       {/* Explore Section */}
-      {isExpanded && (
+      {isSidebarExpanded && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Explore</div>
           <Link 
@@ -189,10 +191,10 @@ function Sidebar({
         </div>
       )}
 
-      {isExpanded && <div className="sidebar-divider" />}
+      {isSidebarExpanded && <div className="sidebar-divider" />}
 
       {/* Settings / Footer Section */}
-      {isExpanded && (
+      {isSidebarExpanded && (
         <div className="sidebar-section footer-section">
           <div className="sidebar-item">
             <IoSettingsOutline size={19} />

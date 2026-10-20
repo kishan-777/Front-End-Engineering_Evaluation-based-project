@@ -1,10 +1,12 @@
 import React from 'react';
+import { useApp } from '../context/AppContext';
 
-/**
- * CategoryChips Component
- * Horizontal scrollable filter pills to quickly categorize content.
- */
-function CategoryChips({ categories, selectedCategory, onSelectCategory }) {
+function CategoryChips({ categories: propCategories, selectedCategory: propSelected, onSelectCategory }) {
+  const context = useApp();
+  const categories = propCategories || context.categories;
+  const selectedCategory = propSelected !== undefined ? propSelected : context.selectedCategory;
+  const handleSelect = onSelectCategory || context.setSelectedCategory;
+
   return (
     <div className="category-chips-container">
       <div className="chips-scroll-wrapper">
@@ -14,7 +16,7 @@ function CategoryChips({ categories, selectedCategory, onSelectCategory }) {
             <button
               key={category}
               className={`chip-btn ${isActive ? 'active' : ''}`}
-              onClick={() => onSelectCategory(category)}
+              onClick={() => handleSelect(category)}
             >
               {category}
             </button>

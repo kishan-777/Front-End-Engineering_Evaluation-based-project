@@ -1,14 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SiYoutubeshorts } from 'react-icons/si';
-import { FaPlay, FaHeart, FaRegHeart, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaPlay, FaHeart, FaRegHeart } from 'react-icons/fa';
+import { useApp } from '../context/AppContext';
 
-/**
- * ShortsCard Component
- * Displays vertical 9:16 aspect ratio thumbnail for YouTube Shorts.
- */
-function ShortsCard({ short, isLiked, onToggleLike }) {
+function ShortsCard({ short }) {
+  const navigate = useNavigate();
+  const { likedVideoIds, toggleLike } = useApp();
+  const isLiked = likedVideoIds.includes(short.id);
+
   const handleOpenShort = () => {
-    window.open(short.videoUrl, '_blank');
+    navigate('/shorts');
   };
 
   return (
@@ -31,7 +33,7 @@ function ShortsCard({ short, isLiked, onToggleLike }) {
             <FaPlay size={14} />
           </div>
           <span className="shorts-open-text">
-            Play Short <FaExternalLinkAlt size={10} style={{ marginLeft: '4px' }} />
+            Play Short
           </span>
         </div>
       </div>
@@ -43,7 +45,7 @@ function ShortsCard({ short, isLiked, onToggleLike }) {
             alt={short.channelName} 
             className="channel-img-sm"
             style={{ width: '24px', height: '24px', borderRadius: '50%', flexShrink: 0, marginTop: '2px' }}
-            title={"Visit " + short.channelName}
+            title={short.channelName}
           />
           <h4 className="shorts-title" onClick={handleOpenShort} title={short.title}>
             {short.title}
@@ -55,11 +57,11 @@ function ShortsCard({ short, isLiked, onToggleLike }) {
             className={`shorts-like-btn ${isLiked ? 'liked' : ''}`}
             onClick={(e) => {
               e.stopPropagation();
-              onToggleLike(short.id);
+              toggleLike(short.id);
             }}
             title={isLiked ? "Unlike" : "Like"}
           >
-            {isLiked ? <FaHeart size={12} /> : <FaRegHeart size={12} />}
+            {isLiked ? <FaHeart size={12} color="#ef4444" /> : <FaRegHeart size={12} />}
             <span>{isLiked ? 'Liked' : (short.likes || 'Like')}</span>
           </button>
         </div>

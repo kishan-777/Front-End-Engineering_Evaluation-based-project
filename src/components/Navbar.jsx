@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   IoMenu, 
@@ -8,64 +8,124 @@ import {
 } from 'react-icons/io5';
 import { IoMdMic } from 'react-icons/io';
 import { RiVideoAddLine } from 'react-icons/ri';
-import { FaYoutube } from 'react-icons/fa';
+import { FaYoutube, FaUserCircle, FaSignOutAlt, FaSearch } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { useApp } from '../context/AppContext';
 
-function Navbar({ 
-  onToggleSidebar, 
-  searchQuery, 
-  setSearchQuery, 
-  onSearchSubmit, 
-  onResetSearch 
-}) {
+function Navbar() {
+  const { 
+    videos, 
+    searchQuery, 
+    setSearchQuery, 
+    isSidebarExpanded, 
+    setIsSidebarExpanded,
+    currentUser,
+    setIsAuthModalOpen,
+    logoutUser,
+    setSelectedCategory
+  } = useApp();
+
   const [isMicActive, setIsMicActive] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
+  const searchWrapperRef = useRef(null);
+
+  // Live Suggestions computation
+  const suggestions = searchQuery.trim().length > 0
+    ? videos.filter((v) => 
+        v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.channelName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.category.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 5)
+    : [];
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSearchSubmit) {
-      onSearchSubmit(searchQuery);
-    }
-    // If not on Home, navigate to Home to see results
+    setShowSuggestions(false);
     navigate('/');
+  };
+
+  const handleSelectSuggestion = (video) => {
+    setSearchQuery(video.title);
+    setShowSuggestions(false);
+    navigate(`/watch/${video.id}`);
   };
 
   const handleMicClick = () => {
     setIsMicActive(true);
+    toast.info('🎙️ Listening... Speak into your microphone');
     setTimeout(() => {
       setIsMicActive(false);
-    }, 2500);
+      setSearchQuery('React');
+      toast.success('Voice recognized: "React"');
+      navigate('/');
+    }, 2200);
+  };
+
+  const handleNotificationsClick = () => {
+    toast.info('🔔 You have 9+ notifications: New videos from Chai aur Code & MrBeast!');
+  };
+
+  const handleUploadClick = () => {
+    if (!currentUser.isLoggedIn) {
+      toast.warn('Please sign in to upload new video content.');
+      setIsAuthModalOpen(true);
+    } else {
+      toast.info('Video Upload Studio will connect to MongoDB in Phase 3.');
+    }
   };
 
   return (
     <header className="navbar">
-      {/* Left: Menu & Brand Link */}
+      {/* Left: Hamburger & Brand Logo */}
       <div className="nav-left">
         <button 
           className="icon-btn menu-btn" 
-          onClick={onToggleSidebar} 
-          title="Toggle Guide / Sidebar"
+          onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} 
+          title="Toggle Sidebar"
           aria-label="Toggle menu"
         >
           <IoMenu size={22} />
         </button>
 
-        <Link to="/" className="logo-container" onClick={onResetSearch} title="PheW TuBe Home">
+        <Link 
+          to="/" 
+          className="logo-container" 
+          onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }} 
+          title="PheW TuBe Home"
+        >
           <FaYoutube className="yt-logo-icon" size={28} />
           <span className="yt-logo-text">PheW TuBe</span>
           <span className="country-code">IN</span>
         </Link>
       </div>
 
-      {/* Middle: Search bar */}
-      <div className="nav-center">
+      {/* Center: Search Bar with Live Suggestions Dropdown */}
+      <div className="nav-center" ref={searchWrapperRef}>
         <form className="search-form" onSubmit={handleSubmit}>
           <div className="search-input-wrapper">
             <input 
               type="text" 
               className="search-input" 
-              placeholder="Search (e.g. React, JavaScript, Gaming, Music...)" 
+              placeholder="Search (React, DSA, Gaming, Latent, Music...)" 
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
             />
             {searchQuery && (
               <button 
@@ -83,6 +143,26 @@ function Navbar({
           </button>
         </form>
 
+        {/* Live Search Suggestions Dropdown */}
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="search-suggestions-dropdown">
+            {suggestions.map((item) => (
+              <div 
+                key={item.id} 
+                className="suggestion-item"
+                onClick={() => handleSelectSuggestion(item)}
+              >
+                <FaSearch className="suggestion-icon" />
+                <div className="suggestion-text-col">
+                  <span className="suggestion-title">{item.title}</span>
+                  <span className="suggestion-sub">{item.channelName} • {item.category}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Voice Search Mic */}
         <button 
           className={`icon-btn mic-btn ${isMicActive ? 'mic-active' : ''}`}
           onClick={handleMicClick}
@@ -93,26 +173,75 @@ function Navbar({
         </button>
       </div>
 
-      {/* Right: Actions */}
+      {/* Right: Actions, Notifications, & User Authentication */}
       <div className="nav-right">
-        <button className="icon-btn" title="Create / Upload Video">
+        <button 
+          className="icon-btn" 
+          title="Create / Upload Video"
+          onClick={handleUploadClick}
+        >
           <RiVideoAddLine size={21} />
         </button>
 
         <div className="notification-btn-wrapper">
-          <button className="icon-btn" title="Notifications">
+          <button 
+            className="icon-btn" 
+            title="Notifications"
+            onClick={handleNotificationsClick}
+          >
             <IoNotificationsOutline size={22} />
             <span className="notification-badge">9+</span>
           </button>
         </div>
 
-        <div className="user-profile" title="Account - Group G15">
-          <img 
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" 
-            alt="User Avatar" 
-            className="user-avatar"
-          />
-        </div>
+        {/* Auth / Profile Area */}
+        {currentUser.isLoggedIn ? (
+          <div className="user-profile-wrapper">
+            <div 
+              className="user-profile" 
+              title={`Account - ${currentUser.name}`}
+              onClick={() => setShowUserMenu(!showUserMenu)}
+            >
+              <img 
+                src={currentUser.avatar || "/images/user_avatar.svg"} 
+                alt="User Avatar" 
+                className="user-avatar"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/user_avatar.svg";
+                }}
+              />
+            </div>
+
+            {showUserMenu && (
+              <div className="user-dropdown-menu">
+                <div className="user-dropdown-header">
+                  <strong>{currentUser.name}</strong>
+                  <span>{currentUser.email}</span>
+                </div>
+                <hr className="dropdown-divider" />
+                <button 
+                  className="dropdown-item-btn"
+                  onClick={() => {
+                    logoutUser();
+                    setShowUserMenu(false);
+                  }}
+                >
+                  <FaSignOutAlt />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button 
+            className="navbar-signin-btn"
+            onClick={() => setIsAuthModalOpen(true)}
+            title="Sign in to your account"
+          >
+            <FaUserCircle size={18} />
+            <span>Sign In</span>
+          </button>
+        )}
       </div>
     </header>
   );

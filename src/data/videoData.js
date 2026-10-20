@@ -1,5 +1,5 @@
-// Curated video & shorts dataset with latest verified subscriber counts & real YouTube media
-// Designed for Front End Engineering - II Project (YouTube-Style Platform)
+// Curated video & shorts dataset with verified 2026 subscriber counts & real YouTube media
+// Designed for Front End Engineering - II Project (PheW TuBe - Evaluation-II)
 
 export const CATEGORIES = [
   "All",
@@ -19,119 +19,181 @@ export const CHANNELS = [
     id: "ch1",
     name: "MrBeast",
     thumbnail: "/images/mrbeast_logo.png",
-    subscribers: "516M subscribers",
-    channelUrl: "https://www.youtube.com/@MrBeast"
+    subscribers: "522M subscribers",
+    channelUrl: "https://www.youtube.com/@MrBeast",
+    verified: true,
+    description: "I want to make the world a better place before I die."
   },
   {
     id: "ch2",
     name: "T-Series",
     thumbnail: "/images/tseries.png",
-    subscribers: "315M subscribers",
-    channelUrl: "https://www.youtube.com/@tseries"
+    subscribers: "316M subscribers",
+    channelUrl: "https://www.youtube.com/@tseries",
+    verified: true,
+    description: "Music Can Change The World. India's largest music label."
   },
   {
     id: "ch3",
     name: "Techno Gamerz",
     thumbnail: "/images/techno_gamerz.png",
-    subscribers: "53M subscribers",
-    channelUrl: "https://www.youtube.com/@TechnoGamerzOfficial"
+    subscribers: "53.4M subscribers",
+    channelUrl: "https://www.youtube.com/@TechnoGamerzOfficial",
+    verified: true,
+    description: "Hey everyone! I'm Ujjwal Chaurasia. Gaming gameplay, walkthroughs and GTA 5 series."
   },
   {
     id: "ch4",
     name: "freeCodeCamp.org",
     thumbnail: "/images/freecodecamp_logo.png",
-    subscribers: "11.9M subscribers",
-    channelUrl: "https://www.youtube.com/@freecodecamp"
+    subscribers: "12M subscribers",
+    channelUrl: "https://www.youtube.com/@freecodecamp",
+    verified: true,
+    description: "Learn to code for free. Built by millions of developers around the world."
   },
   {
     id: "ch5",
-    name: "Samay Raina (India's Got Latent)",
+    name: "Samay Raina",
     thumbnail: "/images/samay_raina.png",
-    subscribers: "11.4M subscribers",
-    channelUrl: "https://www.youtube.com/@SamayRainaOfficial"
+    subscribers: "7.65M subscribers",
+    channelUrl: "https://www.youtube.com/@SamayRainaOfficial",
+    verified: true,
+    description: "Standup Comedian, Chess Enthusiast & Host of India's Got Latent."
   },
   {
     id: "ch6",
-    name: "Wemmbu",
-    thumbnail: "/images/wemmbu_logo.png",
-    subscribers: "4.52M subscribers",
-    channelUrl: "https://www.youtube.com/@wemmbu"
+    name: "Chai aur Code",
+    thumbnail: "/images/chaiaurcode_logo.png",
+    subscribers: "645K subscribers",
+    channelUrl: "https://www.youtube.com/@chaiaurcode",
+    verified: true,
+    description: "A channel dedicated to coding in Hindi. Making programming accessible to all."
   },
   {
     id: "ch7",
-    name: "Chai aur Code",
-    thumbnail: "/images/chaiaurcode_logo.png",
-    subscribers: "930K subscribers",
-    channelUrl: "https://www.youtube.com/@chaiaurcode"
+    name: "Wemmbu",
+    thumbnail: "/images/wemmbu_logo.png",
+    subscribers: "3.45M subscribers",
+    channelUrl: "https://www.youtube.com/@wemmbu",
+    verified: true,
+    description: "Minecraft hardcore survivor, traps expert, and secret base builder."
+  },
+  {
+    id: "ch8",
+    name: "NeetCode / Striver",
+    thumbnail: "https://images.unsplash.com/photo-1534972195531-a756b1140f6c?w=120&auto=format&fit=crop&q=80",
+    subscribers: "980K subscribers",
+    channelUrl: "https://www.youtube.com/@NeetCode",
+    verified: true,
+    description: "Master Data Structures, Algorithms & System Design for top engineering placements."
+  },
+  {
+    id: "ch9",
+    name: "Beyond Coding",
+    thumbnail: "/images/beyond_coding_logo.png",
+    subscribers: "415K subscribers",
+    channelUrl: "https://www.youtube.com",
+    verified: true,
+    description: "Engineering leadership podcasts and software architecture deep dives."
   }
 ];
 
 export const SHORTS = [
   {
     id: "s1",
-    title: "Don't Pop the Balloon",
+    title: "Don't Pop the Balloon Challenge! 🎈",
     thumbnail: "/images/mrbeast_balloon_short.jpg",
-    views: "48M views",
+    views: "52M views",
     channelName: "MrBeast",
     channelAvatar: "/images/mrbeast_logo.png",
     videoUrl: "https://www.youtube.com/shorts/egvLKQe6I4I",
-    likes: "3.4M",
-    comments: "22K"
+    youtubeId: "egvLKQe6I4I",
+    likes: "3.8M",
+    comments: "24K"
   },
   {
     id: "s2",
     title: "React useState vs useRef in 30 Seconds! ⚛️",
     thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=80",
-    views: "1.8M views",
+    views: "2.1M views",
     channelName: "Chai aur Code",
     channelAvatar: "/images/chaiaurcode_logo.png",
     videoUrl: "https://www.youtube.com/shorts/-QvbmLTdxK0",
-    likes: "185K",
-    comments: "950"
+    youtubeId: "-QvbmLTdxK0",
+    likes: "210K",
+    comments: "1.1K"
   },
   {
     id: "s3",
     title: "Samay Raina Funny Unfiltered Moments on Latent Stage 😂",
     thumbnail: "/images/latent_ep6.jpg",
-    views: "15M views",
-    channelName: "Samay Raina (India's Got Latent)",
+    views: "18M views",
+    channelName: "Samay Raina",
     channelAvatar: "/images/samay_raina.png",
     videoUrl: "https://www.youtube.com/shorts/bHscL842jJg",
-    likes: "1.6M",
-    comments: "12K"
+    youtubeId: "bHscL842jJg",
+    likes: "1.9M",
+    comments: "14K"
   },
   {
     id: "s4",
     title: "Techno Gamerz Insane GTA 5 Bike Stunt Over Skyscraper! 🔥",
     thumbnail: "/images/gta5_147.png",
-    views: "9.8M views",
+    views: "12M views",
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
     videoUrl: "https://www.youtube.com/shorts/x1zBOEAzz2o",
-    likes: "890K",
-    comments: "7.2K"
+    youtubeId: "x1zBOEAzz2o",
+    likes: "1.1M",
+    comments: "8.5K"
   },
   {
     id: "s5",
     title: "Minecraft 1-Second Secret Trap That Shocked Everyone! 💥",
     thumbnail: "/images/wemmbu_trap_short.png",
-    views: "4.8M views",
+    views: "5.6M views",
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
     videoUrl: "https://www.youtube.com/shorts/JlGAo-9Mh4I",
-    likes: "420K",
-    comments: "3.1K"
+    youtubeId: "JlGAo-9Mh4I",
+    likes: "510K",
+    comments: "4.2K"
   },
   {
     id: "s6",
     title: "Top 5 VS Code Shortcuts Every Programmer Must Know 💻",
     thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80",
-    views: "3.5M views",
+    views: "4.2M views",
     channelName: "freeCodeCamp.org",
     channelAvatar: "/images/freecodecamp_logo.png",
     videoUrl: "https://www.youtube.com/shorts/YgI5GEZzrIo",
-    likes: "340K",
-    comments: "2.4K"
+    youtubeId: "YgI5GEZzrIo",
+    likes: "420K",
+    comments: "3.2K"
+  },
+  {
+    id: "s7",
+    title: "Binary Search Visualized in 30 Seconds! ⚡",
+    thumbnail: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=80",
+    views: "1.5M views",
+    channelName: "NeetCode / Striver",
+    channelAvatar: "https://images.unsplash.com/photo-1534972195531-a756b1140f6c?w=120&auto=format&fit=crop&q=80",
+    videoUrl: "https://www.youtube.com/shorts/YgI5GEZzrIo",
+    youtubeId: "YgI5GEZzrIo",
+    likes: "145K",
+    comments: "890"
+  },
+  {
+    id: "s8",
+    title: "JavaScript Event Loop in 45 Seconds ⏱️",
+    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop&q=80",
+    views: "2.8M views",
+    channelName: "Chai aur Code",
+    channelAvatar: "/images/chaiaurcode_logo.png",
+    videoUrl: "https://www.youtube.com/shorts/-QvbmLTdxK0",
+    youtubeId: "-QvbmLTdxK0",
+    likes: "280K",
+    comments: "1.9K"
   }
 ];
 
@@ -141,195 +203,316 @@ export const VIDEOS = [
     title: "Complete React course with projects | part 1",
     thumbnail: "/images/chaiaurcode_react_part1.png",
     duration: "8:32:05",
-    views: "1.7M views",
+    views: "1.9M views",
     timestamp: "3 years ago",
     channelName: "Chai aur Code",
     channelAvatar: "/images/chaiaurcode_logo.png",
     category: "React JS",
     videoUrl: "https://www.youtube.com/watch?v=FxgM9k1rg0Q",
+    youtubeId: "FxgM9k1rg0Q",
     verified: true,
-    likes: "145K"
+    likes: "162K",
+    subscribers: "645K subscribers",
+    description: "Master React from basics to advanced project building. Covers hooks, virtual DOM, component lifecycles, and state management in Hindi."
   },
   {
     id: "v2",
     title: "Algorithms and Data Structures Tutorial - Full Course for Beginners",
     thumbnail: "/images/fcc_dsa_fullcourse.jpg",
     duration: "5:22:09",
-    views: "5.9M views",
+    views: "6.4M views",
     timestamp: "5 years ago",
     channelName: "freeCodeCamp.org",
     channelAvatar: "/images/freecodecamp_logo.png",
     category: "DSA",
     videoUrl: "https://www.youtube.com/watch?v=8hly31xKli0",
+    youtubeId: "8hly31xKli0",
     verified: true,
-    likes: "210K"
+    likes: "235K",
+    subscribers: "12M subscribers",
+    description: "Learn Data Structures and Algorithms in this comprehensive full tutorial course for beginners. Covers Big-O, arrays, linked lists, trees, graphs, and dynamic programming."
   },
   {
     id: "v3",
     title: "Why The Best Software Engineers Focus On System Design",
     thumbnail: "/images/beyond_coding_sysdesign.jpg",
     duration: "46:02",
-    views: "415K views",
+    views: "480K views",
     timestamp: "9 months ago",
     channelName: "Beyond Coding",
     channelAvatar: "/images/beyond_coding_logo.png",
     category: "Podcasts",
     videoUrl: "https://www.youtube.com/watch?v=LeUUxLRdvho",
+    youtubeId: "LeUUxLRdvho",
     verified: true,
-    likes: "32K"
+    likes: "38K",
+    subscribers: "415K subscribers",
+    description: "An in-depth conversation exploring how top tech leads design scalable distributed systems, avoid microservices anti-patterns, and master trade-offs."
   },
   {
     id: "v4",
     title: "INDIA'S GOT LATENT S2 EP6 ft. Rakhi Sawant, Ashneer Grover & Kushagra Srivastava",
     thumbnail: "/images/latent_ep6.jpg",
     duration: "54:30",
-    views: "28M views",
+    views: "34M views",
     timestamp: "2 days ago",
-    channelName: "Samay Raina (India's Got Latent)",
+    channelName: "Samay Raina",
     channelAvatar: "/images/samay_raina.png",
     category: "Comedy",
     videoUrl: "https://www.youtube.com/watch?v=zbIr24Tes7E",
+    youtubeId: "zbIr24Tes7E",
     verified: true,
-    likes: "2.4M"
+    likes: "2.8M",
+    subscribers: "7.65M subscribers",
+    description: "The most unfiltered talent show in the country hosted by Samay Raina with an explosive celebrity judge panel."
   },
   {
     id: "v5",
     title: "INDIA'S GOT LATENT S2 EP5 ft. Orry, Archana Puran Singh & Nishant Suri",
     thumbnail: "/images/latent_ep5.png",
     duration: "49:15",
-    views: "24M views",
+    views: "29M views",
     timestamp: "1 week ago",
-    channelName: "Samay Raina (India's Got Latent)",
+    channelName: "Samay Raina",
     channelAvatar: "/images/samay_raina.png",
-    category: "Entertainment",
+    category: "Comedy",
     videoUrl: "https://www.youtube.com/watch?v=VJ9VC9OqdAA",
+    youtubeId: "VJ9VC9OqdAA",
     verified: true,
-    likes: "1.9M"
+    likes: "2.3M",
+    subscribers: "7.65M subscribers",
+    description: "India's Got Latent Season 2 Episode 5 featuring laughter queen Archana Puran Singh and viral pop sensation Orry."
   },
   {
     id: "v6",
     title: "$1 vs $250,000,000 Private Island!",
     thumbnail: "/images/mrbeast_island.png",
     duration: "16:50",
-    views: "310M views",
+    views: "345M views",
     timestamp: "7 months ago",
     channelName: "MrBeast",
     channelAvatar: "/images/mrbeast_logo.png",
     category: "Entertainment",
     videoUrl: "https://www.youtube.com/watch?v=krsBRQbOPQ4",
+    youtubeId: "krsBRQbOPQ4",
     verified: true,
-    likes: "8.4M"
+    likes: "9.2M",
+    subscribers: "522M subscribers",
+    description: "We compared the cheapest $1 private island in the world to an astonishing $250,000,000 luxury tropical paradise!"
   },
   {
     id: "v7",
     title: "7 Days Stranded At Sea",
     thumbnail: "/images/mrbeast_7days.png",
     duration: "18:05",
-    views: "484M views",
+    views: "512M views",
     timestamp: "1 year ago",
     channelName: "MrBeast",
     channelAvatar: "/images/mrbeast_logo.png",
     category: "Entertainment",
     videoUrl: "https://www.youtube.com/watch?v=yhB3BgJyGl8",
+    youtubeId: "yhB3BgJyGl8",
     verified: true,
-    likes: "12M"
+    likes: "14M",
+    subscribers: "522M subscribers",
+    description: "My friends and I spent 7 continuous days surviving in the middle of the Atlantic Ocean on a tiny raft."
   },
   {
     id: "v8",
     title: "Bhool Bhulaiyaa 3 Title Track | Kartik Aaryan, Pitbull, Diljit Dosanjh",
     thumbnail: "/images/bhool_bhulaiyaa3.png",
     duration: "3:50",
-    views: "72M views",
+    views: "89M views",
     timestamp: "2 weeks ago",
     channelName: "T-Series",
     channelAvatar: "/images/tseries.png",
     category: "Music",
     videoUrl: "https://www.youtube.com/watch?v=Cus-6cnyt1s",
+    youtubeId: "Cus-6cnyt1s",
     verified: true,
-    likes: "2.1M"
+    likes: "2.7M",
+    subscribers: "316M subscribers",
+    description: "The global mega-collaboration uniting Kartik Aaryan, Pitbull, Diljit Dosanjh, and Neeraj Shridhar."
   },
   {
     id: "v9",
     title: "Tauba Tauba | Bad Newz | Vicky Kaushal & Karan Aujla Official Track",
     thumbnail: "/images/tauba_tauba.png",
     duration: "3:24",
-    views: "215M views",
+    views: "248M views",
     timestamp: "1 month ago",
     channelName: "T-Series",
     channelAvatar: "/images/tseries.png",
     category: "Music",
     videoUrl: "https://www.youtube.com/watch?v=LK7-_dgAVQE",
+    youtubeId: "LK7-_dgAVQE",
     verified: true,
-    likes: "4.5M"
+    likes: "5.1M",
+    subscribers: "316M subscribers",
+    description: "Vicky Kaushal's viral dance sensations in Karan Aujla's blockbuster chartbuster Tauba Tauba."
   },
   {
     id: "v10",
     title: "I Survived 100 Days in Hardcore Minecraft as a Warden! (Wemmbu)",
     thumbnail: "/images/wemmbu_warden.png",
     duration: "45:10",
-    views: "3.4M views",
+    views: "4.1M views",
     timestamp: "6 days ago",
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
     category: "Minecraft",
     videoUrl: "https://www.youtube.com/watch?v=gTfd3cLMU48",
+    youtubeId: "gTfd3cLMU48",
     verified: true,
-    likes: "290K"
+    likes: "340K",
+    subscribers: "3.45M subscribers",
+    description: "Spawning as the blind terrifying Warden in Hardcore Minecraft. Can I defeat the Ender Dragon and survive 100 days?"
   },
   {
     id: "v11",
     title: "Building The Ultimate Secret Underground Base in Minecraft 1.21",
     thumbnail: "/images/wemmbu_base.png",
     duration: "28:30",
-    views: "2.1M views",
+    views: "2.8M views",
     timestamp: "1 week ago",
     channelName: "Wemmbu",
     channelAvatar: "/images/wemmbu_logo.png",
     category: "Minecraft",
     videoUrl: "https://www.youtube.com/watch?v=D7K2WAldWSo",
+    youtubeId: "D7K2WAldWSo",
     verified: true,
-    likes: "180K"
+    likes: "215K",
+    subscribers: "3.45M subscribers",
+    description: "Designing the most undetectable redstone underground bunker equipped with security laser traps and hidden vault doors."
   },
   {
     id: "v12",
     title: "BIGGEST BANK ROBBERY IN GTA 5 | GTA V GAMEPLAY #147",
     thumbnail: "/images/gta5_147.png",
     duration: "1:13:53",
-    views: "48M views",
+    views: "54M views",
     timestamp: "2 years ago",
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
     category: "Gaming",
     videoUrl: "https://www.youtube.com/watch?v=1nWJUHU-0p4",
+    youtubeId: "1nWJUHU-0p4",
     verified: true,
-    likes: "2.2M"
+    likes: "2.6M",
+    subscribers: "53.4M subscribers",
+    description: "Planning and executing the ultimate high-stakes Pacific Standard bank robbery in GTA V with an armored getaway!"
   },
   {
     id: "v13",
     title: "I TRANSFORMED MY ENTIRE WORLD | MINECRAFT GAMEPLAY #90",
     thumbnail: "/images/minecraft_90.png",
     duration: "59:08",
-    views: "23M views",
+    views: "26M views",
     timestamp: "1 year ago",
     channelName: "Techno Gamerz",
     channelAvatar: "/images/techno_gamerz.png",
     category: "Gaming",
     videoUrl: "https://www.youtube.com/watch?v=yUQSjCy8fkU",
+    youtubeId: "yUQSjCy8fkU",
     verified: true,
-    likes: "1.4M"
+    likes: "1.7M",
+    subscribers: "53.4M subscribers",
+    description: "Episode 90 of our Minecraft Survival Series! Complete kingdom transformation with castle walls and villager trading hall."
   },
   {
     id: "v14",
     title: "JavaScript in 100 Seconds - Full Web Development Essentials",
     thumbnail: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&auto=format&fit=crop&q=80",
     duration: "2:15",
-    views: "3.4M views",
+    views: "3.9M views",
     timestamp: "2 weeks ago",
     channelName: "Chai aur Code",
     channelAvatar: "/images/chaiaurcode_logo.png",
     category: "Coding & Tech",
     videoUrl: "https://www.youtube.com/watch?v=DHjqpvDnNGE",
+    youtubeId: "DHjqpvDnNGE",
     verified: true,
-    likes: "280K"
+    likes: "320K",
+    subscribers: "645K subscribers",
+    description: "The complete story of JavaScript from Brendan Eich's 10-day prototype to Node.js and modern ES2026."
+  },
+  {
+    id: "v15",
+    title: "System Design for Beginners: Architecture, Caching & Load Balancing",
+    thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80",
+    duration: "42:18",
+    views: "820K views",
+    timestamp: "3 weeks ago",
+    channelName: "NeetCode / Striver",
+    channelAvatar: "https://images.unsplash.com/photo-1534972195531-a756b1140f6c?w=120&auto=format&fit=crop&q=80",
+    category: "DSA",
+    videoUrl: "https://www.youtube.com/watch?v=FxgM9k1rg0Q",
+    youtubeId: "FxgM9k1rg0Q",
+    verified: true,
+    likes: "74K",
+    subscribers: "980K subscribers",
+    description: "Master horizontal scaling, CDN caching layers, relational vs NoSQL databases, and message queues in modern distributed systems."
+  },
+  {
+    id: "v16",
+    title: "React 19 Deep Dive: Server Components, Actions & useOptimistic",
+    thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop&q=80",
+    duration: "1:04:12",
+    views: "610K views",
+    timestamp: "1 month ago",
+    channelName: "Chai aur Code",
+    channelAvatar: "/images/chaiaurcode_logo.png",
+    category: "React JS",
+    videoUrl: "https://www.youtube.com/watch?v=FxgM9k1rg0Q",
+    youtubeId: "FxgM9k1rg0Q",
+    verified: true,
+    likes: "59K",
+    subscribers: "645K subscribers",
+    description: "Everything new in React 19: Form Actions, useActionState, Document Metadata, and the brand new React Compiler."
   }
 ];
+
+export const INITIAL_COMMENTS = {
+  v1: [
+    {
+      id: "c1",
+      author: "Rahul Sharma",
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&auto=format&fit=crop&q=80",
+      timestamp: "2 days ago",
+      text: "Hitesh sir's explanation of Virtual DOM reconciliation is unmatched! The best React series on the internet.",
+      likes: 342,
+      replies: 12
+    },
+    {
+      id: "c2",
+      author: "Priya Patel",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&auto=format&fit=crop&q=80",
+      timestamp: "5 days ago",
+      text: "Watching this for my university viva exam. Everything finally makes complete sense! Thank you!",
+      likes: 184,
+      replies: 4
+    }
+  ],
+  v4: [
+    {
+      id: "c3",
+      author: "Aman Verma",
+      avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=60&auto=format&fit=crop&q=80",
+      timestamp: "1 day ago",
+      text: "Samay's comic timing when Ashneer gave his score had me crying laughing! Best episode of Season 2.",
+      likes: 1420,
+      replies: 45
+    }
+  ],
+  v6: [
+    {
+      id: "c4",
+      author: "David Miller",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&auto=format&fit=crop&q=80",
+      timestamp: "3 days ago",
+      text: "The sheer production quality of MrBeast's team is mindblowing. 522M subscribers well deserved!",
+      likes: 4210,
+      replies: 88
+    }
+  ]
+};

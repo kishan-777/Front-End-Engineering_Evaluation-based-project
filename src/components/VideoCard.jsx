@@ -1,16 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdVerified } from 'react-icons/md';
-import { FaPlay, FaHeart, FaRegHeart, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaPlay, FaHeart, FaRegHeart, FaClock, FaCheck } from 'react-icons/fa';
+import { useApp } from '../context/AppContext';
 
-function VideoCard({ 
-  video, 
-  isLiked, 
-  onToggleLike, 
-  isSubscribed, 
-  onToggleSubscribe 
-}) {
+function VideoCard({ video }) {
+  const navigate = useNavigate();
+  const { 
+    likedVideoIds, 
+    watchLaterIds, 
+    subscribedChannels, 
+    toggleLike, 
+    toggleWatchLater, 
+    toggleSubscribe 
+  } = useApp();
+
+  const isLiked = likedVideoIds.includes(video.id);
+  const isSaved = watchLaterIds.includes(video.id);
+  const isSubscribed = subscribedChannels.includes(video.channelName);
+
   const handleOpenVideo = () => {
-    window.open(video.videoUrl, '_blank');
+    navigate(`/watch/${video.id}`);
   };
 
   return (
@@ -33,7 +43,7 @@ function VideoCard({
             <FaPlay size={14} className="play-icon" />
           </div>
           <span className="open-yt-text">
-            Watch on YouTube <FaExternalLinkAlt size={10} style={{ marginLeft: '4px' }} />
+            Play Video
           </span>
         </div>
       </div>
@@ -45,11 +55,10 @@ function VideoCard({
           src={video.channelAvatar} 
           alt={video.channelName} 
           className="channel-avatar" 
-          title={"Visit " + video.channelName + " on YouTube"}
+          title={video.channelName}
           onClick={(e) => {
             e.stopPropagation();
-            const ch = (video.channelName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-            window.open(`https://www.youtube.com/@${ch}`, '_blank');
+            navigate(`/watch/${video.id}`);
           }}
         />
 
@@ -63,16 +72,7 @@ function VideoCard({
             {video.title}
           </h3>
 
-          <div 
-            className="channel-name-row"
-            onClick={(e) => {
-              e.stopPropagation();
-              const ch = (video.channelName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-              window.open(`https://www.youtube.com/@${ch}`, '_blank');
-            }}
-            style={{ cursor: 'pointer' }}
-            title={"Visit " + video.channelName + " on YouTube"}
-          >
+          <div className="channel-name-row" onClick={handleOpenVideo}>
             <span className="channel-name">{video.channelName}</span>
             {video.verified && (
               <MdVerified 
@@ -96,16 +96,43 @@ function VideoCard({
               className={`card-action-btn like-btn ${isLiked ? 'liked' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
-                onToggleLike(video.id);
+                toggleLike(video.id);
               }}
               title={isLiked ? "Unlike video" : "Like video"}
             >
               {isLiked ? (
-                <FaHeart size={14} className="heart-filled" />
+                <>
+                  <FaHeart size={13} color="#ef4444" />
+                  <span>Liked</span>
+                </>
               ) : (
-                <FaRegHeart size={14} />
+                <>
+                  <FaRegHeart size={13} />
+                  <span>Like</span>
+                </>
               )}
-              <span>{isLiked ? 'Liked' : (video.likes || 'Like')}</span>
+            </button>
+
+            {/* Watch Later Quick Toggle */}
+            <button
+              className={`card-action-btn save-btn ${isSaved ? 'saved' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleWatchLater(video.id);
+              }}
+              title="Save to Watch Later"
+            >
+              {isSaved ? (
+                <>
+                  <FaCheck size={11} color="#3b82f6" />
+                  <span>Saved</span>
+                </>
+              ) : (
+                <>
+                  <FaClock size={11} />
+                  <span>Watch Later</span>
+                </>
+              )}
             </button>
 
             {/* Subscribe Toggle */}
@@ -113,10 +140,11 @@ function VideoCard({
               className={`card-action-btn subscribe-btn ${isSubscribed ? 'subscribed' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
-                onToggleSubscribe(video.channelName);
+                toggleSubscribe(video.channelName);
               }}
+              title={isSubscribed ? "Subscribed" : "Subscribe"}
             >
-              {isSubscribed ? 'Subscribed' : 'Subscribe'}
+              <span>{isSubscribed ? 'Subscribed' : 'Subscribe'}</span>
             </button>
           </div>
         </div>
