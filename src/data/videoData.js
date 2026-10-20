@@ -86,15 +86,6 @@ export const CHANNELS = [
     channelUrl: "https://www.youtube.com/@NeetCode",
     verified: true,
     description: "Master Data Structures, Algorithms & System Design for top engineering placements."
-  },
-  {
-    id: "ch9",
-    name: "Beyond Coding",
-    thumbnail: "/images/beyond_coding_logo.png",
-    subscribers: "415K subscribers",
-    channelUrl: "https://www.youtube.com",
-    verified: true,
-    description: "Engineering leadership podcasts and software architecture deep dives."
   }
 ];
 
@@ -231,23 +222,6 @@ export const VIDEOS = [
     likes: "235K",
     subscribers: "12M subscribers",
     description: "Learn Data Structures and Algorithms in this comprehensive full tutorial course for beginners. Covers Big-O, arrays, linked lists, trees, graphs, and dynamic programming."
-  },
-  {
-    id: "v3",
-    title: "Why The Best Software Engineers Focus On System Design",
-    thumbnail: "/images/beyond_coding_sysdesign.jpg",
-    duration: "46:02",
-    views: "480K views",
-    timestamp: "9 months ago",
-    channelName: "Beyond Coding",
-    channelAvatar: "/images/beyond_coding_logo.png",
-    category: "Podcasts",
-    videoUrl: "https://www.youtube.com/watch?v=LeUUxLRdvho",
-    youtubeId: "LeUUxLRdvho",
-    verified: true,
-    likes: "38K",
-    subscribers: "415K subscribers",
-    description: "An in-depth conversation exploring how top tech leads design scalable distributed systems, avoid microservices anti-patterns, and master trade-offs."
   },
   {
     id: "v4",

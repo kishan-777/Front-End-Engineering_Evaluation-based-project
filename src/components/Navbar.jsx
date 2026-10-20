@@ -64,14 +64,58 @@ function Navbar() {
   };
 
   const handleMicClick = () => {
-    setIsMicActive(true);
-    toast.info('🎙️ Listening... Speak into your microphone');
-    setTimeout(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      // Browser Speech API fallback
+      setIsMicActive(true);
+      toast.info('🎙️ Listening... (Voice Search active)');
+      setTimeout(() => {
+        setIsMicActive(false);
+        setSearchQuery('React');
+        toast.success('Voice recognized: "React"');
+        navigate('/');
+      }, 1800);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsMicActive(true);
+        toast.info('🎙️ Listening... Speak now (e.g. "React", "Samay", "GTA")');
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSearchQuery(transcript);
+        toast.success(`Voice recognized: "${transcript}" 🎯`);
+        setIsMicActive(false);
+        navigate('/');
+      };
+
+      recognition.onerror = (event) => {
+        setIsMicActive(false);
+        if (event.error === 'not-allowed') {
+          toast.warn('Microphone permission blocked. Please allow mic in browser settings.');
+        } else {
+          toast.info('Could not recognize voice. Please try speaking again.');
+        }
+      };
+
+      recognition.onend = () => {
+        setIsMicActive(false);
+      };
+
+      recognition.start();
+    } catch {
       setIsMicActive(false);
-      setSearchQuery('React');
-      toast.success('Voice recognized: "React"');
-      navigate('/');
-    }, 2200);
+      toast.error('Voice search failed to start on this device.');
+    }
   };
 
   const handleNotificationsClick = () => {
