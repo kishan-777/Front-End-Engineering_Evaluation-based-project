@@ -26,9 +26,9 @@ function Trending() {
     { id: 'Now', label: 'Trending Now', icon: <HiOutlineFire size={18} /> },
     { id: 'Music', label: 'Music', icon: <MdOutlineMusicNote size={18} /> },
     { id: 'Gaming', label: 'Gaming', icon: <IoGameControllerOutline size={18} /> },
-    { id: 'News', label: 'News (CNN)', icon: <MdOutlineFeed size={18} /> },
-    { id: 'Sports', label: 'Sports (Sony LIV)', icon: <TfiCup size={17} /> },
-    { id: 'Podcasts', label: 'Podcasts (Nikhil Kamath)', icon: <MdPodcasts size={18} /> }
+    { id: 'News', label: 'News', icon: <MdOutlineFeed size={18} /> },
+    { id: 'Sports', label: 'Sports', icon: <TfiCup size={17} /> },
+    { id: 'Podcasts', label: 'Podcasts', icon: <MdPodcasts size={18} /> }
   ];
 
   const filteredTrending = videos.filter((video) => {

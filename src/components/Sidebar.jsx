@@ -223,7 +223,7 @@ function Sidebar() {
             onClick={() => handleExploreCategory('News', '/news')}
           >
             <MdOutlineFeed size={20} />
-            <span>News (CNN)</span>
+            <span>News</span>
           </button>
           <button 
             type="button"
@@ -231,7 +231,7 @@ function Sidebar() {
             onClick={() => handleExploreCategory('Sports', '/sports')}
           >
             <TfiCup size={19} />
-            <span>Sports (Sony LIV)</span>
+            <span>Sports</span>
           </button>
           <button 
             type="button"
@@ -239,7 +239,7 @@ function Sidebar() {
             onClick={() => handleExploreCategory('Podcasts', '/podcasts')}
           >
             <MdPodcasts size={20} />
-            <span>Podcasts (Nikhil Kamath)</span>
+            <span>Podcasts</span>
           </button>
         </div>
       )}

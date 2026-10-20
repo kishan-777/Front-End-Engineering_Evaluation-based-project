@@ -33,27 +33,16 @@ function ChannelPage() {
 
   return (
     <div className="channel-page-container">
-      {/* 1. YouTube Hero Banner featuring Channel Icon */}
-      <div className="channel-hero-banner">
-        <div 
-          className="channel-banner-backdrop" 
-          style={{ backgroundImage: `url(${channel.thumbnail})` }} 
-        />
-        <div className="channel-banner-glass-overlay">
-          <div className="channel-banner-center-brand">
-            <img 
-              src={channel.thumbnail} 
-              alt={channel.name} 
-              className="channel-banner-logo-img" 
-              onError={(e) => { e.currentTarget.src = "/images/user_avatar.svg"; }}
-            />
-            <div className="channel-banner-title-box">
-              <span className="channel-banner-official-tag">Official Channel Brand</span>
-              <h2 className="channel-banner-heading">{channel.name}</h2>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* 1. Official YouTube Channel Panoramic Hero Banner */}
+      <div 
+        className="channel-hero-banner"
+        style={{
+          backgroundImage: `url(${channel.banner || channel.thumbnail})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
 
       {/* 2. Channel Header Profile Bar */}
       <div className="channel-header-wrapper">
