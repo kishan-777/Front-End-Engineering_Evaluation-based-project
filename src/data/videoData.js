@@ -31,7 +31,7 @@ export const CHANNELS = [
     handle: "@MrBeast",
     thumbnail: "/images/mrbeast_logo.png",
     banner: "https://yt3.googleusercontent.com/mHMO_eEMp0dPvh0ADwXhPXNYb_GnjSVsLI8biqF1CpxT8OPl7izhNQsDPD3JHhd5y5Mg9GrP=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "349M subscribers",
+    subscribers: "522M subscribers",
     channelUrl: "https://www.youtube.com/@MrBeast",
     verified: true,
     videosCount: "850 videos",
@@ -43,7 +43,7 @@ export const CHANNELS = [
     handle: "@tseries",
     thumbnail: "/images/tseries.png",
     banner: "https://yt3.googleusercontent.com/CzFi17ykM04g3YZvYDR7usWm3oTfnAAJ3xHMpqMZsNY9s-o39nZP-RmNqiA0Wxh2W_L_DxlvXw=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "282M subscribers",
+    subscribers: "316M subscribers",
     channelUrl: "https://www.youtube.com/@tseries",
     verified: true,
     videosCount: "22K videos",
@@ -55,7 +55,7 @@ export const CHANNELS = [
     handle: "@TechnoGamerzOfficial",
     thumbnail: "/images/techno_gamerz.png",
     banner: "https://yt3.googleusercontent.com/0HhL8sA6Hoxhe14v80M3QvasKg_SUw0s4ZDu3N-wteoJ0gKtMmt8FmBqZDI-jCBccpuvVGHu=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "44.6M subscribers",
+    subscribers: "53.4M subscribers",
     channelUrl: "https://www.youtube.com/@TechnoGamerzOfficial",
     verified: true,
     videosCount: "1.1K videos",
@@ -67,7 +67,7 @@ export const CHANNELS = [
     handle: "@freecodecamp",
     thumbnail: "/images/freecodecamp_logo.png",
     banner: "https://yt3.googleusercontent.com/_GxV-5nnBhGDO2bDgFtrpVypm6z8AC_tFg7W0zSsS9AGlw5xVg8zKLQ5tvTk6BwU1LzmWJb4YA=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "10.4M subscribers",
+    subscribers: "12M subscribers",
     channelUrl: "https://www.youtube.com/@freecodecamp",
     verified: true,
     videosCount: "1.9K videos",
@@ -79,7 +79,7 @@ export const CHANNELS = [
     handle: "@SamayRainaOfficial",
     thumbnail: "/images/samay_raina.png",
     banner: "https://yt3.googleusercontent.com/efVBV551iq6Cl1yzF_N8vWgGRkUNXj5mX4qP0PF-RNTBS1hUKtg-4ZHxaXm1bBzivY14QA3SVA=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "7.65M subscribers",
+    subscribers: "11.9M subscribers",
     channelUrl: "https://www.youtube.com/@SamayRainaOfficial",
     verified: true,
     videosCount: "340 videos",
@@ -91,7 +91,7 @@ export const CHANNELS = [
     handle: "@chaiaurcode",
     thumbnail: "/images/chaiaurcode_logo.png",
     banner: "https://yt3.googleusercontent.com/qMsGpWiU5QcUJToklKKAM4UDg1625urRwRy4yBxCvOsESoUbCAI9lM6puXiv_mAkGteSjY0A=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "1.04M subscribers",
+    subscribers: "946K subscribers",
     channelUrl: "https://www.youtube.com/@chaiaurcode",
     verified: true,
     videosCount: "420 videos",
@@ -103,7 +103,7 @@ export const CHANNELS = [
     handle: "@wemmbu",
     thumbnail: "/images/wemmbu_logo.png",
     banner: "https://yt3.googleusercontent.com/wmYjiTTw2GL1_Dk5HfK7-1CG6tA-qM7G8HWPrsiEdoS9TquDDYd-dc44rAa19htZnf3kLGRGlRc=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
-    subscribers: "4.38M subscribers",
+    subscribers: "4.74M subscribers",
     channelUrl: "https://www.youtube.com/@wemmbu",
     verified: true,
     videosCount: "290 videos",
@@ -265,7 +265,7 @@ export const VIDEOS = [
     youtubeId: "FxgM9k1rg0Q",
     verified: true,
     likes: "162K",
-    subscribers: "645K subscribers",
+    subscribers: "946K subscribers",
     description: "Master React from basics to advanced project building. Covers hooks, virtual DOM, component lifecycles, and state management in Hindi."
   },
   {
@@ -303,7 +303,7 @@ export const VIDEOS = [
     youtubeId: "zbIr24Tes7E",
     verified: true,
     likes: "3.4M",
-    subscribers: "7.65M subscribers",
+    subscribers: "11.9M subscribers",
     description: "The most unfiltered talent show in the country hosted by Samay Raina with an explosive celebrity judge panel."
   },
   {
@@ -322,7 +322,7 @@ export const VIDEOS = [
     youtubeId: "VJ9VC9OqdAA",
     verified: true,
     likes: "2.8M",
-    subscribers: "7.65M subscribers",
+    subscribers: "11.9M subscribers",
     description: "India's Got Latent Season 2 Episode 5 featuring laughter queen Archana Puran Singh and viral pop sensation Orry."
   },
   {
@@ -417,7 +417,7 @@ export const VIDEOS = [
     youtubeId: "gTfd3cLMU48",
     verified: true,
     likes: "340K",
-    subscribers: "3.45M subscribers",
+    subscribers: "4.74M subscribers",
     description: "Spawning as the blind terrifying Warden in Hardcore Minecraft. Can I defeat the Ender Dragon and survive 100 days?"
   },
   {
@@ -436,7 +436,7 @@ export const VIDEOS = [
     youtubeId: "D7K2WAldWSo",
     verified: true,
     likes: "215K",
-    subscribers: "3.45M subscribers",
+    subscribers: "4.74M subscribers",
     description: "Designing the most undetectable redstone underground bunker equipped with security laser traps and hidden vault doors."
   },
   {
@@ -493,7 +493,7 @@ export const VIDEOS = [
     youtubeId: "DHjqpvDnNGE",
     verified: true,
     likes: "320K",
-    subscribers: "645K subscribers",
+    subscribers: "946K subscribers",
     description: "The complete story of JavaScript from Brendan Eich's 10-day prototype to Node.js and modern ES2026."
   },
   {
@@ -512,7 +512,7 @@ export const VIDEOS = [
     youtubeId: "FxgM9k1rg0Q",
     verified: true,
     likes: "59K",
-    subscribers: "645K subscribers",
+    subscribers: "946K subscribers",
     description: "Everything new in React 19: Form Actions, useActionState, Document Metadata, and the brand new React Compiler."
   },
 
