@@ -9,15 +9,12 @@ function VideoCard({ video }) {
   const { 
     likedVideoIds, 
     watchLaterIds, 
-    subscribedChannels, 
     toggleLike, 
-    toggleWatchLater, 
-    toggleSubscribe 
+    toggleWatchLater 
   } = useApp();
 
   const isLiked = likedVideoIds.includes(video.id);
   const isSaved = watchLaterIds.includes(video.id);
-  const isSubscribed = subscribedChannels.includes(video.channelName);
 
   const handleOpenVideo = () => {
     navigate(`/watch/${video.slug || video.id}`);
@@ -135,18 +132,6 @@ function VideoCard({ video }) {
                   <span>Watch Later</span>
                 </>
               )}
-            </button>
-
-            {/* Subscribe Toggle */}
-            <button 
-              className={`card-action-btn subscribe-btn ${isSubscribed ? 'subscribed' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleSubscribe(video.channelName);
-              }}
-              title={isSubscribed ? "Subscribed" : "Subscribe"}
-            >
-              <span>{isSubscribed ? 'Subscribed' : 'Subscribe'}</span>
             </button>
           </div>
         </div>

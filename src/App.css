@@ -2833,7 +2833,7 @@ a {
 
 .channel-hero-banner {
   width: 100%;
-  height: 200px;
+  height: 250px;
   position: relative;
   overflow: hidden;
   background-color: #121214;
@@ -2845,7 +2845,7 @@ a {
 
 @media (min-width: 1200px) {
   .channel-hero-banner {
-    height: 240px;
+    height: 280px;
   }
 }
 
