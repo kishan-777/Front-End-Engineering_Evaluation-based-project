@@ -130,13 +130,13 @@ function Sidebar() {
 
       {isSidebarExpanded && <div className="sidebar-divider" />}
 
-      {/* Subscriptions List Section */}
+      {/* Subscriptions List Section - ONLY Subscribed Channels */}
       {isSidebarExpanded && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Subscriptions</div>
-          {channels.map((channel) => {
-            const isSubbed = subscribedChannels.includes(channel.name);
-            return (
+          {channels
+            .filter((channel) => subscribedChannels.includes(channel.name))
+            .map((channel) => (
               <div 
                 key={channel.id} 
                 className="channel-item"
@@ -157,7 +157,6 @@ function Sidebar() {
                   </span>
                 </div>
 
-                {/* External YouTube Link icon */}
                 <button
                   type="button"
                   className="channel-ext-btn"
@@ -170,20 +169,13 @@ function Sidebar() {
                 >
                   <FiExternalLink size={13} />
                 </button>
-
-                <button 
-                  className={`sub-toggle-sm ${isSubbed ? 'subbed' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleSubscribe(channel.name);
-                  }}
-                  title={isSubbed ? "Subscribed" : "Subscribe"}
-                >
-                  {isSubbed ? 'Subscribed' : 'Join'}
-                </button>
               </div>
-            );
-          })}
+            ))}
+          {channels.filter((channel) => subscribedChannels.includes(channel.name)).length === 0 && (
+            <div style={{ padding: '8px 12px', fontSize: '12px', color: 'var(--text-secondary, #71717a)' }}>
+              No subscriptions yet
+            </div>
+          )}
         </div>
       )}
 

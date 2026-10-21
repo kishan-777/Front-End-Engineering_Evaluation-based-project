@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import VideoCard from '../components/VideoCard';
 import { useApp } from '../context/AppContext';
+import { MdCheck } from 'react-icons/md';
 
 function Subscriptions() {
   const navigate = useNavigate();
@@ -10,48 +11,63 @@ function Subscriptions() {
   const subbedChannelsList = channels.filter((ch) => subscribedChannels.includes(ch.name));
 
   return (
-    <div className="page-container">
+    <div className="page-container subscriptions-page-container">
       <div className="page-header-box">
         <h2>Subscribed Channels Feed</h2>
-        <p>Latest videos from the creators you follow ({subscribedChannels.length} active subscriptions)</p>
+        <p>Latest updates and videos from the creators you follow ({subbedChannelsList.length} active subscriptions)</p>
       </div>
 
       {subbedChannelsList.length > 0 ? (
-        <div className="channels-pill-row">
-          {subbedChannelsList.map((ch) => (
-            <div key={ch.id} className="channel-card-badge active">
+        <section className="subscribed-channels-section">
+          <div className="section-header-row">
+            <h3 className="section-title">Subscribed Channels ({subbedChannelsList.length})</h3>
+            <span className="channels-count-tag">Active Creators</span>
+          </div>
+
+          <div className="subscribed-channels-tiles-grid">
+            {subbedChannelsList.map((ch) => (
               <div 
-                className="channel-badge-main-click"
+                key={ch.id} 
+                className="subscribed-channel-tile"
                 onClick={() => navigate(`/channel/${ch.id}`)}
-                title={`Visit ${ch.name} Channel Page`}
+                title={`Visit ${ch.name}'s channel page`}
               >
-                <img src={ch.thumbnail} alt={ch.name} className="channel-badge-avatar" />
-                <div className="channel-badge-info">
-                  <span className="channel-badge-name">{ch.name}</span>
-                  <span className="channel-badge-subs">{ch.subscribers}</span>
+                <div className="sub-tile-avatar-wrapper">
+                  <img src={ch.thumbnail} alt={ch.name} className="sub-tile-avatar" />
+                  <span className="sub-tile-online-dot" title="Active creator"></span>
+                </div>
+
+                <div className="sub-tile-info">
+                  <h4 className="sub-tile-name" title={ch.name}>
+                    {ch.name}
+                  </h4>
+                  <span className="sub-tile-subs">{ch.subscribers}</span>
+                </div>
+
+                <div className="sub-tile-actions">
+                  <button 
+                    className="sub-tile-action-btn subbed"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleSubscribe(ch.name);
+                    }}
+                    title="Click to unsubscribe"
+                  >
+                    <MdCheck size={16} />
+                    <span>Subscribed</span>
+                  </button>
                 </div>
               </div>
-
-              <button 
-                className="sub-btn-pill subbed"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleSubscribe(ch.name);
-                }}
-                title="Unsubscribe"
-              >
-                Subscribed
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
       ) : (
-        <div className="empty-subbed-channels-notice" style={{ padding: '16px 20px', backgroundColor: 'var(--card-bg, #1f1f1f)', borderRadius: '12px', border: '1px solid var(--border-color, #333)', margin: '16px 0', color: 'var(--text-secondary, #aaa)' }}>
-          <span>You haven't subscribed to any channels yet. Click "Subscribe" on any video or channel page to follow your favourite creators!</span>
+        <div className="empty-subbed-channels-notice">
+          <span>You haven't subscribed to any channels yet. Click "Subscribe" on any creator or channel page to follow them!</span>
         </div>
       )}
 
-      <section className="video-grid-section" style={{ marginTop: '24px' }}>
+      <section className="video-grid-section" style={{ marginTop: '28px' }}>
         <h3 className="section-title">Latest Subscribed Videos ({subbedVideos.length})</h3>
         {subbedVideos.length === 0 ? (
           <div className="empty-sub-card">
