@@ -39,7 +39,7 @@ function ChannelPage() {
         style={{
           backgroundImage: `url(${channel.banner || channel.thumbnail})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: channel.bannerPosition || 'center top',
           backgroundRepeat: 'no-repeat'
         }}
       />
