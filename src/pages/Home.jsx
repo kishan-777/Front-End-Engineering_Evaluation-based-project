@@ -1,10 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { SiYoutubeshorts } from 'react-icons/si';
 import { IoSearchOutline } from 'react-icons/io5';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import CategoryChips from '../components/CategoryChips';
 import VideoCard from '../components/VideoCard';
 import ShortsCard from '../components/ShortsCard';
 import { useApp } from '../context/AppContext';
+
+const INITIAL_BATCH_SIZE = 8;
+const BATCH_INCREMENT = 6;
 
 function Home() {
   const { 
@@ -16,6 +20,8 @@ function Home() {
     selectedCategory, 
     setSelectedCategory 
   } = useApp();
+
+  const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH_SIZE);
 
   // Optimized Search & Category Filtering with useMemo
   const filteredVideos = useMemo(() => {
@@ -36,6 +42,25 @@ function Home() {
       return matchesCategory && matchesSearch;
     });
   }, [allVideos, selectedCategory, searchQuery]);
+
+  // Reset pagination count whenever category or search filter changes
+  useEffect(() => {
+    setVisibleCount(INITIAL_BATCH_SIZE);
+  }, [selectedCategory, searchQuery]);
+
+  // Sliced array for Infinite Scroll (Classroom requirement - Mr. Shubham Kumar G15)
+  const displayedVideos = useMemo(() => {
+    return filteredVideos.slice(0, visibleCount);
+  }, [filteredVideos, visibleCount]);
+
+  const hasMore = displayedVideos.length < filteredVideos.length;
+
+  const fetchMoreVideos = () => {
+    // Smooth delay simulation for infinite loading feel
+    setTimeout(() => {
+      setVisibleCount((prev) => Math.min(prev + BATCH_INCREMENT, filteredVideos.length));
+    }, 350);
+  };
 
   return (
     <div className="page-container">
@@ -90,16 +115,35 @@ function Home() {
           </button>
         </div>
       ) : (
-        /* Video Feed Grid */
+        /* Video Feed Grid with Infinite Scroll */
         <section className="video-grid-section">
           {selectedCategory !== 'All' && (
             <h3 className="section-title">Videos in "{selectedCategory}"</h3>
           )}
-          <div className="video-grid">
-            {filteredVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
+          
+          <InfiniteScroll
+            dataLength={displayedVideos.length}
+            next={fetchMoreVideos}
+            hasMore={hasMore}
+            loader={
+              <div className="infinite-scroll-loader">
+                <div className="infinite-spinner" />
+                <span>Loading more videos...</span>
+              </div>
+            }
+            endMessage={
+              <div className="infinite-scroll-end">
+                <span>✓ All {filteredVideos.length} videos loaded</span>
+              </div>
+            }
+            style={{ overflow: 'visible' }}
+          >
+            <div className="video-grid">
+              {displayedVideos.map((video) => (
+                <VideoCard key={video.id} video={video} />
+              ))}
+            </div>
+          </InfiniteScroll>
         </section>
       )}
     </div>

@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppProvider, useApp } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
 import UploadModal from './components/UploadModal';
 import SettingsModal from './components/SettingsModal';
@@ -55,12 +56,56 @@ function AppContent() {
             <Route path="/watch/:id" element={<WatchPage />} />
             <Route path="/shorts" element={<Shorts />} />
             <Route path="/channel/:id" element={<ChannelPage />} />
-            <Route path="/my-uploads" element={<MyUploads />} />
-            <Route path="/subscriptions" element={<Subscriptions />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/liked" element={<LikedVideos />} />
-            <Route path="/watch-later" element={<WatchLater />} />
-            <Route path="/playlists" element={<Playlists />} />
+            
+            {/* Protected Routes (Require User Login / Registration) */}
+            <Route 
+              path="/my-uploads" 
+              element={
+                <ProtectedRoute title="Sign In to Manage Your Uploads">
+                  <MyUploads />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/subscriptions" 
+              element={
+                <ProtectedRoute title="Sign In to Access Your Subscriptions Feed">
+                  <Subscriptions />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/history" 
+              element={
+                <ProtectedRoute title="Keep Track of What You Watch">
+                  <History />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/liked" 
+              element={
+                <ProtectedRoute title="Enjoy Your Favorite Videos">
+                  <LikedVideos />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/watch-later" 
+              element={
+                <ProtectedRoute title="Save Videos to Watch Later">
+                  <WatchLater />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/playlists" 
+              element={
+                <ProtectedRoute title="Manage Your Custom Playlists">
+                  <Playlists />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/trending" element={<Trending />} />
             <Route path="/music" element={<Trending />} />
             <Route path="/gaming" element={<Trending />} />

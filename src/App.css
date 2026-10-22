@@ -3880,3 +3880,137 @@ a {
   border-color: #d4d4d8 !important;
 }
 
+
+/* ---------------------------------------------------------
+   11. PROTECTED ROUTE STYLING (AUTH REQUIREMENT SCREEN)
+   --------------------------------------------------------- */
+.protected-route-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 40px 16px;
+  width: 100%;
+}
+
+.protected-card {
+  max-width: 480px;
+  width: 100%;
+  background: var(--card-bg, #18181b);
+  border: 1px solid var(--border-color, #27272a);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.protected-icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 0, 51, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 0, 51, 0.25);
+}
+
+.protected-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-primary, #ffffff);
+}
+
+.protected-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary, #a1a1aa);
+  line-height: 1.55;
+  margin-bottom: 26px;
+}
+
+.protected-actions {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.protected-signin-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--yt-red, #ff0033);
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255, 0, 51, 0.35);
+}
+
+.protected-signin-btn:hover {
+  background: #cc0029;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 0, 51, 0.5);
+}
+
+.protected-guest-hint {
+  font-size: 13px;
+  color: var(--text-secondary, #71717a);
+}
+
+.protected-home-link {
+  color: #3ea6ff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------
+   12. INFINITE SCROLL LOADER & SPINNER (YOUTUBE THEME)
+   --------------------------------------------------------- */
+.infinite-scroll-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 0 24px 0;
+  width: 100%;
+  color: var(--text-secondary, #aaa);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.infinite-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--yt-red, #ff0033);
+  border-radius: 50%;
+  animation: infinite-spin 0.85s linear infinite;
+}
+
+@keyframes infinite-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.infinite-scroll-end {
+  text-align: center;
+  padding: 28px 0 16px 0;
+  color: var(--text-secondary, #71717a);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+

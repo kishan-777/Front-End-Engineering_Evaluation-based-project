@@ -1,14 +1,45 @@
 import React, { useState } from 'react';
-import { IoClose, IoSettingsOutline } from 'react-icons/io5';
-import { FaTrash, FaCheckCircle } from 'react-icons/fa';
+import { IoClose, IoSettingsOutline, IoLogoYoutube, IoCloudDownloadOutline } from 'react-icons/io5';
+import { FaTrash, FaCheckCircle, FaKey } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
 function SettingsModal() {
-  const { isSettingsOpen, setIsSettingsOpen, clearHistory, theme, toggleTheme, isAutoplayEnabled, toggleAutoplay } = useApp();
+  const { 
+    isSettingsOpen, 
+    setIsSettingsOpen, 
+    clearHistory, 
+    theme, 
+    toggleTheme, 
+    isAutoplayEnabled, 
+    toggleAutoplay,
+    youtubeApiKey,
+    setYoutubeApiKey,
+    isLiveApiEnabled,
+    setIsLiveApiEnabled,
+    isApiLoading,
+    fetchLiveYouTube
+  } = useApp();
+
   const [highQuality, setHighQuality] = useState(true);
+  const [apiKeyInput, setApiKeyInput] = useState(youtubeApiKey);
+  const [searchTopic, setSearchTopic] = useState('React tutorials');
 
   if (!isSettingsOpen) return null;
+
+  const handleSaveApiKey = () => {
+    setYoutubeApiKey(apiKeyInput.trim());
+    toast.success('YouTube API Key saved!', { toastId: 'yt_key_saved' });
+  };
+
+  const handleTestApi = async () => {
+    if (!apiKeyInput.trim()) {
+      toast.warning('Please enter a YouTube API key first', { toastId: 'key_warn' });
+      return;
+    }
+    setYoutubeApiKey(apiKeyInput.trim());
+    await fetchLiveYouTube(searchTopic || 'React projects');
+  };
 
   const handleClearAllStorage = () => {
     localStorage.clear();
@@ -108,6 +139,105 @@ function SettingsModal() {
             >
               {highQuality ? 'HD' : 'AUTO'}
             </button>
+          </div>
+
+          {/* Classroom Requirement: YouTube Data API v3 Live Integration */}
+          <div style={{ background: '#121215', borderRadius: '12px', border: '1px solid #27272a', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <IoLogoYoutube size={20} color="#ff0033" />
+                <strong style={{ fontSize: '14px' }}>YouTube Data API v3</strong>
+              </div>
+              <span style={{ 
+                fontSize: '11px', 
+                padding: '2px 8px', 
+                borderRadius: '10px', 
+                background: youtubeApiKey ? 'rgba(34, 197, 94, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+                color: youtubeApiKey ? '#22c55e' : '#a1a1aa',
+                border: youtubeApiKey ? '1px solid #22c55e' : '1px solid #3f3f46'
+              }}>
+                {youtubeApiKey ? '● Live API Ready' : '○ Curated Mode'}
+              </span>
+            </div>
+
+            <p style={{ fontSize: '11.5px', color: '#a1a1aa', margin: 0 }}>
+              Connect Google Cloud YouTube API Key to dynamically fetch live YouTube channels and videos into the feed.
+            </p>
+
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <input
+                type="text"
+                placeholder="Paste YouTube API Key (AIzaSy...)"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: '#18181b',
+                  border: '1px solid #3f3f46',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '6px 10px',
+                  fontSize: '12px',
+                  outline: 'none'
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleSaveApiKey}
+                style={{
+                  background: '#27272a',
+                  border: '1px solid #3f3f46',
+                  color: '#fff',
+                  borderRadius: '6px',
+                  padding: '6px 12px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                Save
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', gap: '6px', marginTop: '2px' }}>
+              <input
+                type="text"
+                placeholder="Topic: e.g. React 19, Latent, Gaming"
+                value={searchTopic}
+                onChange={(e) => setSearchTopic(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: '#18181b',
+                  border: '1px solid #3f3f46',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '6px 10px',
+                  fontSize: '12px',
+                  outline: 'none'
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleTestApi}
+                disabled={isApiLoading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: isApiLoading ? '#3f3f46' : '#ff0033',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: '6px',
+                  padding: '6px 12px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: isApiLoading ? 'not-allowed' : 'pointer'
+                }}
+              >
+                <IoCloudDownloadOutline size={14} />
+                <span>{isApiLoading ? 'Fetching...' : 'Fetch Live'}</span>
+              </button>
+            </div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>

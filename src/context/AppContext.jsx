@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { VIDEOS, SHORTS, CATEGORIES, CHANNELS, INITIAL_COMMENTS, slugify } from '../data/videoData';
+import { fetchLiveYouTubeVideos } from '../services/youtubeApi';
 
 const AppContext = createContext();
 
@@ -158,6 +159,50 @@ export function AppProvider({ children }) {
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  // 10. YouTube Data API v3 Live Integration State
+  const [youtubeApiKey, setYoutubeApiKey] = useState(() => {
+    return localStorage.getItem('phew_yt_api_key') || '';
+  });
+  const [isLiveApiEnabled, setIsLiveApiEnabled] = useState(() => {
+    return localStorage.getItem('phew_live_api_enabled') === 'true';
+  });
+  const [isApiLoading, setIsApiLoading] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('phew_yt_api_key', youtubeApiKey);
+  }, [youtubeApiKey]);
+
+  useEffect(() => {
+    localStorage.setItem('phew_live_api_enabled', isLiveApiEnabled ? 'true' : 'false');
+  }, [isLiveApiEnabled]);
+
+  // Handler: Fetch Live YouTube Videos via YouTube Data API v3
+  const fetchLiveYouTube = async (searchKeyword = 'React JS projects') => {
+    if (!youtubeApiKey || !youtubeApiKey.trim()) {
+      toast.warning('Please enter a YouTube Data API v3 Key in Settings first!', { toastId: 'yt_key_missing' });
+      return { success: false, error: 'API Key missing' };
+    }
+
+    setIsApiLoading(true);
+    toast.info(`Fetching live videos for "${searchKeyword}" from YouTube API...`, { toastId: 'yt_fetching' });
+
+    const result = await fetchLiveYouTubeVideos(searchKeyword, youtubeApiKey, 12);
+    setIsApiLoading(false);
+
+    if (result.success && result.videos.length > 0) {
+      setVideos((prev) => {
+        const existingIds = new Set(prev.map((v) => v.id));
+        const newOnes = result.videos.filter((v) => !existingIds.has(v.id));
+        return [...newOnes, ...prev];
+      });
+      toast.success(`✓ Loaded ${result.videos.length} live YouTube videos!`, { toastId: 'yt_live_success' });
+      return result;
+    } else {
+      toast.error(result.error || 'Could not fetch from YouTube API (check quota/key). Operating in curated mode.', { toastId: 'yt_live_error' });
+      return result;
+    }
   };
 
   // Sync to localStorage
@@ -372,7 +417,13 @@ export function AppProvider({ children }) {
     clearHistory,
     addComment,
     loginUser,
-    logoutUser
+    logoutUser,
+    youtubeApiKey,
+    setYoutubeApiKey,
+    isLiveApiEnabled,
+    setIsLiveApiEnabled,
+    isApiLoading,
+    fetchLiveYouTube
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
