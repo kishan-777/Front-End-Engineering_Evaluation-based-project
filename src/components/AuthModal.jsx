@@ -120,7 +120,7 @@ function AuthModal() {
                 id="auth-username"
                 type="text" 
                 name="username" 
-                placeholder="e.g. Kishan"
+                placeholder=""
                 value={formData.username}
                 onChange={handleChange}
                 autoFocus
@@ -138,7 +138,7 @@ function AuthModal() {
                   id="auth-email"
                   type="email" 
                   name="email" 
-                  placeholder="e.g. kishan@chitkara.edu.in"
+                  placeholder=""
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -155,7 +155,7 @@ function AuthModal() {
                 id="auth-password"
                 type={showPassword ? "text" : "password"} 
                 name="password" 
-                placeholder="Enter password"
+                placeholder=""
                 value={formData.password}
                 onChange={handleChange}
               />
