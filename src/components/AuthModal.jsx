@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { FaYoutube, FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaYoutube, FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash, FaTrashAlt, FaDatabase, FaCheckCircle } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
 function AuthModal() {
-  const { isAuthModalOpen, setIsAuthModalOpen, loginUser } = useApp();
+  const { 
+    isAuthModalOpen, 
+    setIsAuthModalOpen, 
+    loginUser, 
+    registerUser, 
+    registeredUsers, 
+    clearAllProfiles 
+  } = useApp();
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,9 +41,15 @@ function AuthModal() {
         setError('Please enter your username and password.');
         return;
       }
+
+      // Check if user exists in registeredUsers
+      const existing = (registeredUsers || []).find(
+        (u) => u.username.toLowerCase() === formData.username.trim().toLowerCase()
+      );
+
       loginUser({
         name: formData.username.trim(),
-        email: `${formData.username.trim().toLowerCase().replace(/\s+/g, '')}@phew.tube`
+        email: existing?.email || `${formData.username.trim().toLowerCase().replace(/\s+/g, '')}@phew.tube`
       });
     } else {
       // Sign Up requires Username, Email, and Password
@@ -43,10 +57,17 @@ function AuthModal() {
         setError('Please fill in username, email, and password.');
         return;
       }
-      loginUser({
-        name: formData.username.trim(),
-        email: formData.email.trim()
+
+      const result = registerUser({
+        username: formData.username.trim(),
+        email: formData.email.trim(),
+        password: formData.password
       });
+
+      if (!result.success) {
+        setError('User already registered with this username or email! Please switch to Sign In.');
+        setIsSignUp(false); // Automatically switch to Sign In
+      }
     }
   };
 
@@ -90,7 +111,7 @@ function AuthModal() {
         {error && <div className="auth-error-banner">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Username Field (Always required for both Sign In and Sign Up) */}
+          {/* Username Field */}
           <div className="auth-input-group">
             <label htmlFor="auth-username">Username</label>
             <div className="auth-input-wrapper">
@@ -99,7 +120,7 @@ function AuthModal() {
                 id="auth-username"
                 type="text" 
                 name="username" 
-                placeholder=""
+                placeholder="e.g. Kishan"
                 value={formData.username}
                 onChange={handleChange}
                 autoFocus
@@ -117,7 +138,7 @@ function AuthModal() {
                   id="auth-email"
                   type="email" 
                   name="email" 
-                  placeholder=""
+                  placeholder="e.g. kishan@chitkara.edu.in"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -134,7 +155,7 @@ function AuthModal() {
                 id="auth-password"
                 type={showPassword ? "text" : "password"} 
                 name="password" 
-                placeholder=""
+                placeholder="Enter password"
                 value={formData.password}
                 onChange={handleChange}
               />
@@ -154,6 +175,24 @@ function AuthModal() {
             {isSignUp ? 'Create Account' : 'Sign In'}
           </button>
         </form>
+
+        {/* LocalStorage Inspector & Clear Profiles Button (Viva Defense Feature) */}
+        <div className="auth-storage-footer">
+          <div className="auth-storage-meta">
+            <FaDatabase className="storage-icon" />
+            <span>
+              LocalStorage: <strong>{registeredUsers?.length || 0}</strong> {registeredUsers?.length === 1 ? 'account' : 'accounts'} registered
+            </span>
+          </div>
+          <button 
+            type="button" 
+            className="auth-clear-profiles-btn"
+            onClick={clearAllProfiles}
+            title="Wipe registered profiles from browser LocalStorage for clean demonstration"
+          >
+            <FaTrashAlt size={11} /> Clear All Saved Profiles
+          </button>
+        </div>
       </div>
     </div>
   );

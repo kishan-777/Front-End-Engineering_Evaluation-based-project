@@ -86,6 +86,26 @@ export function AppProvider({ children }) {
     }
   });
 
+  // Registered Users List (Persistent in LocalStorage for Viva demo)
+  const [registeredUsers, setRegisteredUsers] = useState(() => {
+    try {
+      const saved = localStorage.getItem('phew_registered_users');
+      return saved ? JSON.parse(saved) : [
+        { username: 'Kishan', email: 'kishan@phew.tube', password: '123' },
+        { username: 'Kanav', email: 'kanav@phew.tube', password: '123' }
+      ];
+    } catch {
+      return [
+        { username: 'Kishan', email: 'kishan@phew.tube', password: '123' },
+        { username: 'Kanav', email: 'kanav@phew.tube', password: '123' }
+      ];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('phew_registered_users', JSON.stringify(registeredUsers));
+  }, [registeredUsers]);
+
   // 5. Liked Videos State (Persistent)
   const [likedVideoIds, setLikedVideoIds] = useState(() => {
     try {
@@ -350,24 +370,67 @@ export function AppProvider({ children }) {
 
   // Handler: User Login
   const loginUser = (userData) => {
-    setCurrentUser({
+    const updatedUser = {
       name: userData.name || 'G15 Team Member',
       email: userData.email,
       avatar: '/images/user_avatar.svg',
       isLoggedIn: true
-    });
+    };
+    setCurrentUser(updatedUser);
+    localStorage.setItem('phew_current_user', JSON.stringify(updatedUser));
     setIsAuthModalOpen(false);
     toast.success(`Welcome back, ${userData.name || 'User'}! 🎉`, { toastId: 'login_success' });
   };
 
-  // Handler: User Logout
-  const logoutUser = () => {
+  // Handler: User Sign Up with duplicate registration check
+  const registerUser = ({ username, email, password }) => {
+    const cleanUser = username.trim();
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Check if user already registered with same username or email
+    const existing = registeredUsers.find(
+      (u) => u.username.toLowerCase() === cleanUser.toLowerCase() || (u.email && u.email.toLowerCase() === cleanEmail)
+    );
+
+    if (existing) {
+      toast.warning('User already registered! Please sign in with your credentials.', { toastId: 'already_reg' });
+      return { success: false, error: 'User already registered' };
+    }
+
+    const newUser = { username: cleanUser, email: cleanEmail, password };
+    const updated = [...registeredUsers, newUser];
+    setRegisteredUsers(updated);
+    localStorage.setItem('phew_registered_users', JSON.stringify(updated));
+
+    loginUser({ name: cleanUser, email: cleanEmail });
+    toast.success(`Account created successfully! Welcome, ${cleanUser}! 🎉`, { toastId: 'reg_success' });
+    return { success: true, user: newUser };
+  };
+
+  // Handler: Clear all saved profiles & sessions from Local Storage (Viva demonstration)
+  const clearAllProfiles = () => {
+    localStorage.removeItem('phew_registered_users');
+    localStorage.removeItem('phew_current_user');
+    setRegisteredUsers([]);
     setCurrentUser({
       name: 'Guest User',
       email: '',
       avatar: '/images/user_avatar.svg',
       isLoggedIn: false
     });
+    toast.info('All saved profiles & session cleared from Local Storage! 🧹', { toastId: 'profiles_cleared' });
+  };
+
+  // Handler: User Logout
+  const logoutUser = () => {
+    const guestUser = {
+      name: 'Guest User',
+      email: '',
+      avatar: '/images/user_avatar.svg',
+      isLoggedIn: false
+    };
+    setCurrentUser(guestUser);
+    localStorage.setItem('phew_current_user', JSON.stringify(guestUser));
     toast.info('Logged out successfully. You can sign in with another account.', { toastId: 'logout_info' });
   };
 
@@ -418,6 +481,9 @@ export function AppProvider({ children }) {
     addComment,
     loginUser,
     logoutUser,
+    registeredUsers,
+    registerUser,
+    clearAllProfiles,
     youtubeApiKey,
     setYoutubeApiKey,
     isLiveApiEnabled,

@@ -2245,6 +2245,54 @@ a {
   margin-top: 16px;
 }
 
+.auth-storage-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.auth-storage-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+.auth-storage-meta .storage-icon {
+  color: #3ea6ff;
+  font-size: 13px;
+}
+
+.auth-storage-meta strong {
+  color: #ffffff;
+}
+
+.auth-clear-profiles-btn {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #f87171;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.auth-clear-profiles-btn:hover {
+  background: rgba(220, 38, 38, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
 /* 4. Watch Page (/watch/:id) Layout */
 .watch-page-container {
   display: flex;
