@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Personal viva preparation files
+Viva_*.pdf
+*viva*.pdf
+*Viva*.pdf
+
