@@ -149,14 +149,25 @@ function AuthModal() {
       return;
     }
 
-    // Match by selected ID from dropdown OR typed username
+    // Match by selected ID from dropdown OR typed username/email
     const targetQuery = (loginUsername.trim() || selectedRegisteredId).toLowerCase();
     const matchedUser = (registeredUsers || []).find(
       (u) => u.username.toLowerCase() === targetQuery || (u.email && u.email.toLowerCase() === targetQuery)
     );
 
     if (!matchedUser) {
-      setError('Account not found with that username/email. Please sign up as a New User.');
+      setError('Account not found with that username/email. Please check or sign up as a New User.');
+      return;
+    }
+
+    // STRICT PASSWORD VERIFICATION
+    if (!loginPassword) {
+      setError(`Please enter the password for "${matchedUser.username}".`);
+      return;
+    }
+
+    if (matchedUser.password && matchedUser.password !== loginPassword) {
+      setError('Incorrect password! Please enter the correct password for this account.');
       return;
     }
 
@@ -164,10 +175,11 @@ function AuthModal() {
       name: matchedUser.username,
       email: matchedUser.email || `${matchedUser.username.toLowerCase()}@phew.tube`
     });
+    setLoginPassword('');
     setIsAuthModalOpen(false);
   };
 
-  // Quick 1-click login from saved profile dropdown
+  // Quick 1-click login from saved profile dropdown with strict password verification
   const handleQuickProfileLogin = () => {
     setError('');
     const targetQuery = (selectedRegisteredId || registeredUsers?.[0]?.username || '').toLowerCase();
@@ -175,13 +187,28 @@ function AuthModal() {
       (u) => u.username.toLowerCase() === targetQuery
     );
 
-    if (matchedUser) {
-      loginUser({
-        name: matchedUser.username,
-        email: matchedUser.email || `${matchedUser.username.toLowerCase()}@phew.tube`
-      });
-      setIsAuthModalOpen(false);
+    if (!matchedUser) {
+      setError('No matching profile selected.');
+      return;
     }
+
+    // STRICT PASSWORD VERIFICATION
+    if (!loginPassword) {
+      setError(`Please enter the password for "${matchedUser.username}" below to sign in.`);
+      return;
+    }
+
+    if (matchedUser.password && matchedUser.password !== loginPassword) {
+      setError('Incorrect password! Please enter the correct password for this account.');
+      return;
+    }
+
+    loginUser({
+      name: matchedUser.username,
+      email: matchedUser.email || `${matchedUser.username.toLowerCase()}@phew.tube`
+    });
+    setLoginPassword('');
+    setIsAuthModalOpen(false);
   };
 
   // Clear only registered user profiles

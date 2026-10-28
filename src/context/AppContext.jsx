@@ -369,7 +369,7 @@ export function AppProvider({ children }) {
   };
 
   // Handler: User Login
-  const loginUser = (userData) => {
+  const loginUser = (userData, isNewUser = false) => {
     const updatedUser = {
       name: userData.name || 'G15 Team Member',
       email: userData.email,
@@ -379,7 +379,12 @@ export function AppProvider({ children }) {
     setCurrentUser(updatedUser);
     localStorage.setItem('phew_current_user', JSON.stringify(updatedUser));
     setIsAuthModalOpen(false);
-    toast.success(`Welcome back, ${userData.name || 'User'}! 🎉`, { toastId: 'login_success' });
+    
+    if (isNewUser) {
+      toast.success('Begin your journey of exploration! 🚀', { toastId: 'reg_success' });
+    } else {
+      toast.success(`Welcome back, ${userData.name || 'User'}! 🎉`, { toastId: 'login_success' });
+    }
   };
 
   // Handler: User Sign Up with duplicate registration check
@@ -402,8 +407,7 @@ export function AppProvider({ children }) {
     setRegisteredUsers(updated);
     localStorage.setItem('phew_registered_users', JSON.stringify(updated));
 
-    loginUser({ name: cleanUser, email: cleanEmail });
-    toast.success(`Account created successfully! Welcome, ${cleanUser}! 🎉`, { toastId: 'reg_success' });
+    loginUser({ name: cleanUser, email: cleanEmail }, true);
     return { success: true, user: newUser };
   };
 

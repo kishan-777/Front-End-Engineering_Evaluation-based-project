@@ -10,7 +10,15 @@ import {
 } from 'react-icons/io5';
 import { IoMdMic } from 'react-icons/io';
 import { RiVideoAddLine } from 'react-icons/ri';
-import { FaYoutube, FaUserCircle, FaSignOutAlt, FaSearch } from 'react-icons/fa';
+import { MdSwitchAccount } from 'react-icons/md';
+import { 
+  FaYoutube, 
+  FaUserCircle, 
+  FaSignOutAlt, 
+  FaSearch, 
+  FaUserPlus, 
+  FaCheckCircle 
+} from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { useApp } from '../context/AppContext';
 
@@ -23,7 +31,9 @@ function Navbar() {
     setIsSidebarExpanded,
     currentUser,
     setIsAuthModalOpen,
+    loginUser,
     logoutUser,
+    registeredUsers,
     setSelectedCategory,
     setIsUploadOpen,
     notifications,
@@ -40,6 +50,7 @@ function Navbar() {
   const navigate = useNavigate();
   const searchWrapperRef = useRef(null);
   const notifWrapperRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   // Live Suggestions computation
   const suggestions = searchQuery.trim().length > 0
@@ -55,6 +66,12 @@ function Navbar() {
     const handleOutsideClick = (e) => {
       if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
         setShowSuggestions(false);
+      }
+      if (notifWrapperRef.current && !notifWrapperRef.current.contains(e.target)) {
+        setShowNotifications(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setShowUserMenu(false);
       }
     };
     document.addEventListener('mousedown', handleOutsideClick);
@@ -286,9 +303,9 @@ function Navbar() {
           )}
         </div>
 
-        {/* Auth / Profile Area */}
+        {/* Auth / Profile Area with Multiple Users Switcher */}
         {currentUser.isLoggedIn ? (
-          <div className="user-profile-wrapper">
+          <div className="user-profile-wrapper" ref={userMenuRef}>
             <div 
               className="user-profile" 
               title={`Account - ${currentUser.name}`}
@@ -307,10 +324,17 @@ function Navbar() {
             {showUserMenu && (
               <div className="user-dropdown-menu">
                 <div className="user-dropdown-header">
-                  <strong>{currentUser.name}</strong>
-                  <span>{currentUser.email}</span>
+                  <div className="user-header-avatar-circle">
+                    {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <div className="user-header-text">
+                    <strong>{currentUser.name}</strong>
+                    <span>{currentUser.email}</span>
+                  </div>
                 </div>
+
                 <hr className="dropdown-divider" />
+
                 <button 
                   className="dropdown-item-btn"
                   onClick={() => {
@@ -318,17 +342,74 @@ function Navbar() {
                     navigate('/my-uploads');
                   }}
                 >
-                  <RiVideoAddLine />
+                  <RiVideoAddLine size={16} />
                   <span>Your Videos</span>
                 </button>
+
+                <hr className="dropdown-divider" />
+
+                {/* Multiple Users / Switch Account Section (YouTube Authenticity) */}
+                <div className="dropdown-section-header">
+                  <MdSwitchAccount size={16} />
+                  <span>Switch Account</span>
+                </div>
+
+                <div className="dropdown-accounts-list">
+                  {(registeredUsers || []).map((u) => {
+                    const isCurrent = (currentUser.name || '').toLowerCase() === (u.username || '').toLowerCase();
+                    return (
+                      <button
+                        key={u.username}
+                        type="button"
+                        className={`dropdown-account-item ${isCurrent ? 'active' : ''}`}
+                        onClick={() => {
+                          if (!isCurrent) {
+                            loginUser({
+                              name: u.username,
+                              email: u.email || `${u.username.toLowerCase()}@phew.tube`
+                            });
+                            toast.success(`Switched account to ${u.username}! 👤`);
+                          }
+                          setShowUserMenu(false);
+                        }}
+                        title={isCurrent ? `Currently active: ${u.username}` : `Switch to ${u.username}`}
+                      >
+                        <div className="account-initial-circle">
+                          {u.username ? u.username.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <div className="account-text-info">
+                          <span className="account-item-name">{u.username}</span>
+                          <span className="account-item-email">{u.email || `${u.username.toLowerCase()}@phew.tube`}</span>
+                        </div>
+                        {isCurrent && <FaCheckCircle className="account-check-icon" size={13} />}
+                      </button>
+                    );
+                  })}
+                </div>
+
                 <button 
-                  className="dropdown-item-btn"
+                  type="button"
+                  className="dropdown-item-btn add-account-btn"
+                  onClick={() => {
+                    setShowUserMenu(false);
+                    setIsAuthModalOpen(true);
+                  }}
+                  title="Switch to another user or register new profile"
+                >
+                  <FaUserPlus size={15} />
+                  <span>Add / Switch Account...</span>
+                </button>
+
+                <hr className="dropdown-divider" />
+
+                <button 
+                  className="dropdown-item-btn signout-btn"
                   onClick={() => {
                     logoutUser();
                     setShowUserMenu(false);
                   }}
                 >
-                  <FaSignOutAlt />
+                  <FaSignOutAlt size={15} />
                   <span>Sign Out</span>
                 </button>
               </div>
